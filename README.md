@@ -1,10 +1,10 @@
-# Research Workspace
+# 🔬 Research Workspace
 
 An Obsidian-based knowledge management workspace for AI research, with AI-assisted paper reading workflow.
 
 基于 Obsidian 的 AI 研究知识管理工作区，支持 AI 辅助论文阅读。
 
-## Features
+## ✨ Features
 
 - **Paper Notes** — 结构化论文笔记模板（含 Mermaid Mind Map）
 - **Research Ideas** — 灵感记录，双向链接到相关论文
@@ -13,7 +13,7 @@ An Obsidian-based knowledge management workspace for AI research, with AI-assist
 - **Meeting Notes** — 会议/讨论记录
 - **AI Workflow** — 用 Claude Code 或其他 AI 工具自动生成论文笔记
 
-## Getting Started
+## 🚀 Getting Started
 
 1. Clone this repo and open it as an Obsidian vault
 2. Obsidian settings are pre-configured (templates, attachments, link format)
@@ -24,7 +24,7 @@ An Obsidian-based knowledge management workspace for AI research, with AI-assist
 - [Obsidian](https://obsidian.md/) (free)
 - [Claude Code](https://claude.ai/code) (optional, for AI-assisted paper reading)
 
-## Structure
+## 📁 Structure
 
 | Folder | Purpose | Naming |
 |--------|---------|--------|
@@ -38,7 +38,7 @@ An Obsidian-based knowledge management workspace for AI research, with AI-assist
 | `Attachments/` | 附件 | — |
 | `Resources/` | AI Prompts 等参考资料 | — |
 
-## Templates
+## 📝 Templates
 
 | Template | Purpose |
 |----------|---------|
@@ -49,7 +49,7 @@ An Obsidian-based knowledge management workspace for AI research, with AI-assist
 | Meeting | 会议记录（含 Action Items） |
 | Daily | 每日研究日志 |
 
-## AI-Assisted Paper Reading
+## 🤖 AI-Assisted Paper Reading
 
 ### With Claude Code (recommended)
 
@@ -68,7 +68,7 @@ Claude Code will:
 
 Copy the prompt from [Resources/AI-Prompts.md](Resources/AI-Prompts.md), paste it along with the paper info into any AI chat, then paste the output into Obsidian.
 
-## Tags
+## 🏷️ Tags
 
 Flat tags using canonical English terms:
 
@@ -77,7 +77,7 @@ Flat tags using canonical English terms:
 - **Venue** (optional): `NeurIPS`, `ICML`, `ICLR`, `ACL`, `CVPR`
 - **Task**: `text-generation`, `image-classification`, `alignment`
 
-## Linking Strategy
+## 🔗 Linking Strategy
 
 Notes are connected via `[[wikilinks]]` to form a knowledge graph:
 
@@ -89,14 +89,14 @@ Notes are connected via `[[wikilinks]]` to form a knowledge graph:
 
 Use Obsidian's **Graph View** to visualize your research knowledge network.
 
-## Star History
+## 🌟 Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=liqing-ustc/Research&type=Date)](https://star-history.com/#liqing-ustc/Research&Date)
 
-## Author
+If you find this useful, please give it a star 🌟! It helps others discover this project.
 
-**Qing Li** — [liqing.io](https://liqing.io/)
+**Author**: [Qing Li](https://liqing.io/)
 
-## License
+## 📄 License
 
 Feel free to use this as a template for your own research workspace.
