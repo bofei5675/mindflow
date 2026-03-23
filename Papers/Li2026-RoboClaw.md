@@ -4,7 +4,6 @@ authors: [Ruiying Li, Yunlang Zhou, YuYao Zhu, Kylin Chen, Jingyuan Wang, Sukai 
 year: 2026
 venue: arXiv
 tags: [robotics, VLA, LLM, manipulation, long-horizon, autonomous-data-collection]
-arxiv: "2603.11558"
 url: https://arxiv.org/abs/2603.11558
 code:
 status: finished

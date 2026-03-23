@@ -4,7 +4,6 @@ authors: []
 year:
 venue:          # e.g. NeurIPS 2025, arXiv
 tags: []        # e.g. [transformer, LLM, RLHF]
-arxiv:          # arXiv ID, e.g. 2301.12345
 url:            # 论文链接
 code:           # GitHub repo 链接
 status: unread  # unread / reading / finished
