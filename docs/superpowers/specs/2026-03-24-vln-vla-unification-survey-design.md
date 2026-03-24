@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-24
 **Status:** Draft
-**Author:** Qing Li + Claudian
+**Author:** Qing Li + Claude Code
 
 ## Goal
 
@@ -17,12 +17,21 @@ Build a literature survey in the Obsidian vault exploring the convergence of VLN
 All output lives inside the Obsidian vault:
 
 1. **Core Topic Note:** `Topics/VLN-VLA-Unification.md`
-2. **New Paper Notes:** 8-12 papers in `Papers/`, following `AuthorYear-ShortTitle.md` naming
-3. **Idea Note:** `Ideas/` (when survey matures), following `Ideas/` template
+2. **New Paper Notes:** 10-15 papers in `Papers/`, following `AuthorYear-ShortTitle.md` naming
+3. **Idea Note:** `Ideas/` (when survey matures), following `Templates/Idea.md` template (status: `raw`, with Core Idea, Motivation, Related Work, Rough Plan, Open Questions)
 
 ## Topic Note Structure
 
-`Topics/VLN-VLA-Unification.md` is organized into 6 sections:
+`Topics/VLN-VLA-Unification.md` is organized into 6 sections. This extends beyond the standard `Templates/Topic.md` structure (which has Overview, Paper Comparison table, Key Takeaways, Open Problems) because a deep cross-domain survey requires richer organization. The template's Paper Comparison table concept is incorporated into Section 4.
+
+**Topic note frontmatter:**
+
+```yaml
+title: "VLN-VLA Unification: Foundation Models for Indoor Robot Navigation and Manipulation"
+tags: [VLN, VLA, SLAM, embodied-AI, foundation-model, indoor-scene, navigation, manipulation]
+status: draft
+date_updated: "2026-03-24"
+```
 
 ### Section 1: VLA 基础模型现状
 
@@ -56,6 +65,8 @@ Cross-cutting analysis comparing VLN and VLA architectures.
   - Scene/memory representation (history tokens, video encoding, 3D maps)
   - Training data (simulation vs. real, scale, diversity)
   - Task horizon (single-step vs. long-horizon)
+- **Comparison table schema:** Rows = papers/models, Columns = VLM backbone | Action space | Scene/memory representation | Training data source | Training paradigm | Task horizon | Sim vs. Real
+- **Cross-cutting concern:** Simulation environments (Matterport3D, Habitat, AI2-THOR) and the sim-to-real gap as it affects both VLN and VLA
 - **Key question:** What are the fundamental architectural similarities and differences? Where is unification natural vs. forced?
 
 ### Section 5: 现有 Nav+Manip 系统
@@ -71,6 +82,7 @@ Synthesized from Sections 1-5.
 
 - Identified research gaps
 - Potential research directions
+- Benchmarks and evaluation considerations (ALFRED, TEACh, HomeRobot Challenge)
 - Open questions
 - Seeds for the eventual Idea note
 
@@ -87,11 +99,13 @@ Synthesized from Sections 1-5.
 - Earlier/background works cited for context
 - Papers with similar methods where only conclusions differ
 
-### Estimated new Paper notes: 8-12
+### Estimated new Paper notes: 10-15
 
 - VLN foundation models: ~3-4 papers
+- VLA additions (RT-2, Octo, OpenVLA): ~2-3 papers
 - Semantic SLAM / spatial representation: ~2-3 papers
 - Nav+Manip systems: ~2-3 papers
+- VLA models with navigation capabilities (e.g., mobile base control): ~1-2 papers if found
 
 ### Existing Paper notes to integrate: 4
 
@@ -124,8 +138,9 @@ All Paper notes follow `Templates/Paper.md` format with YAML frontmatter, mermai
 
 ## Execution
 
+- **Recommended order:** Section 1 (VLA, leveraging 4 existing notes) → Section 2 (VLN) → Section 3 (SLAM) → Section 5 (Nav+Manip systems) → Section 4 (cross-cutting analysis) → Section 6 (gap analysis)
 - Each session focuses on one section at a time
-- Claudian searches papers, generates notes; user reviews and supplements in Obsidian
+- Claude Code searches papers, generates notes; user reviews and supplements in Obsidian
 - Topic note is a living document, updated incrementally
 
 ## Conventions
