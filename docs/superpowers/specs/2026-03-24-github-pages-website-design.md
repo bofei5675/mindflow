@@ -82,6 +82,7 @@ cd website && npm install
 | Backlinks | `Backlinks` component |
 | 标签筛选 | `TagList` + Tags page |
 | 文件树导航 | `Explorer` component |
+| 页面目录（TOC） | `TableOfContents` component（左侧栏） |
 | 评论系统 | Giscus（自定义组件） |
 
 ### 排除目录
