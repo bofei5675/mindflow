@@ -33,10 +33,6 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer({
-      folderDefaultState: "collapsed",
-      useSavedState: false,
-    }),
     Component.DesktopOnly(Component.Graph({
       localGraph: {
         depth: 1,
