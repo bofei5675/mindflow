@@ -1,5 +1,14 @@
 @use "./base.scss";
 
+// Reduce top spacing (default $topSpacing is 6rem, too large)
+.page-header {
+  margin-top: 1.5rem !important;
+}
+
+.sidebar.left {
+  padding-top: 1.5rem !important;
+}
+
 // Sticky header
 .page-header > header {
   position: sticky;
@@ -11,4 +20,16 @@
 // Limit article width for comfortable reading (~75 chars)
 .center > article {
   max-width: 740px;
+}
+
+// Explorer: add breathing room between top-level folders
+.explorer-content > li {
+  margin-top: 0.15rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--lightgray);
+}
+
+.explorer-content > li:first-child {
+  border-top: none;
+  padding-top: 0;
 }
