@@ -13,10 +13,10 @@
   padding-top: 2rem !important;
 }
 
-// TOC: show full content, push Graph below
+// TOC: scrollable, max half the viewport height
 .toc {
-  overflow-y: visible;
-  flex: 0 0 auto;
+  overflow-y: auto;
+  max-height: 50vh;
 }
 
 // Sticky header
