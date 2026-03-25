@@ -1,12 +1,11 @@
 @use "./base.scss";
 
 // Sticky header
-#quartz-header {
+.page-header > header {
   position: sticky;
   top: 0;
   z-index: 100;
   background-color: var(--light);
-  padding: 0 2rem;
 }
 
 // Limit article width for comfortable reading (~75 chars)

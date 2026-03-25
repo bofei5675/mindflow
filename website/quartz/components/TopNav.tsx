@@ -26,16 +26,15 @@ const TopNav: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
 
 TopNav.css = `
 /* Header bar layout: PageTitle | TopNav (flex:1) | Search | Darkmode */
-#quartz-header {
+.page-header > header {
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 0.6rem 0;
   border-bottom: 1px solid var(--lightgray);
-  margin-bottom: 0;
 }
 
-#quartz-header .page-title {
+.page-header > header .page-title {
   flex-shrink: 0;
   font-size: 1.2rem;
   margin-right: 0.5rem;
@@ -64,7 +63,7 @@ TopNav.css = `
 }
 
 /* Push search to the right */
-#quartz-header > .search {
+.page-header > header .search {
   margin-left: auto;
 }
 `
