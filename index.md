@@ -3,8 +3,6 @@ title: MindFlow
 tags: []
 ---
 
-# MindFlow
-
 An AI research knowledge base — paper notes, research ideas, literature surveys, and project tracking.
 
 基于 Obsidian 的 AI 研究知识管理空间，记录论文笔记、研究 idea、文献综述和项目进展。
