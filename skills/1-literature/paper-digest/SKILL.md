@@ -72,7 +72,7 @@ paper-digest 是 MindFlow 最基础的文献技能。给定一篇论文的来源
 
 **去重检查**：用 Glob 扫描 `Papers/` 目录，检查是否已存在同名或同主题笔记（搜索标题关键词）。若发现重复，停止并告知 Human，不创建新文件。
 
-**Tag 选择**：阅读 `references/tag-taxonomy.md`，从中选取 2-4 个最能描述该论文的 tag。必须严格使用文件中已定义的 tag，不得自创。
+**Tag 选择**：阅读 `references/Tag-Taxonomy.md`，从中选取 1-3 个 tag。如果现有 tag 无法覆盖该论文的核心方向，可以新增 tag——先更新 `references/Tag-Taxonomy.md`（遵循其设计原则：粒度适中、正交、稳定），再在论文 frontmatter 中使用。
 
 ### Step 4：生成笔记
 
@@ -132,7 +132,7 @@ date_added: "<今天日期 YYYY-MM-DD>"
 
 - **不覆盖已有笔记**：若 `Papers/YYMM-ShortTitle.md` 已存在，停止执行并告知 Human，不得覆盖或修改已有文件。
 - **不捏造信息**：所有字段必须来自论文原文。无法获取全文时，在受影响的章节开头标注 `> [未获取全文，仅基于 abstract]`，不得推测正文内容填充 Method / Key Results 等节。
-- **Tags 必须来自 Tag-Taxonomy**：只能使用 `references/tag-taxonomy.md` 中已定义的 tag。如果发现论文需要尚未定义的 tag，在 `## Notes` 节中用注释建议新增，不得直接写入 frontmatter。
+- **Tag 规范**：优先使用 `references/Tag-Taxonomy.md` 中已有的 tag。可以新增 tag，但必须先更新 Tag-Taxonomy.md（加入 tag 列表并注明说明），再写入论文 frontmatter。新 tag 需遵循设计原则（粒度适中、正交、稳定）。
 - **rating 留给 Human**：`rating` 字段始终留空，不得填写任何值。
 - **语言规范**：正文用中文撰写，英文技术术语（模型名、方法名、benchmark 名）保持英文，不做翻译。
 - **autonomy: copilot 模式**：若用户以 copilot 模式调用，生成笔记草稿后先输出给 Human 预览，确认后再执行 Write；日志同样在确认后追加。
