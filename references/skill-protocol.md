@@ -153,7 +153,6 @@ A bulleted list of rules the skill must never violate. These act as hard constra
 - Never modify `agenda.md` Mission section.
 - Do not mark an insight as `validated` without ≥2 independent evidence sources.
 - If `autonomy: low`, produce a draft only — do not write any files.
-- Check `references/Tag-Taxonomy.md` before assigning tags. New tags allowed but must be added to taxonomy first.
 ```
 
 ### Examples

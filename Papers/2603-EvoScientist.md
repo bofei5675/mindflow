@@ -1,15 +1,28 @@
 ---
 title: "EvoScientist: Towards Multi-Agent Evolving AI Scientists for End-to-End Scientific Discovery"
-authors: [Yougang Lyu, Xi Zhang, Xinhao Yi, Yuyue Zhao, Shuyu Guo, Wenxiang Hu, Jan Piotrowski, Jakub Kaliski, Jacopo Urbani, Zaiqiao Meng, Lun Zhou, Xiaohui Yan]
+authors:
+  - Yougang Lyu
+  - Xi Zhang
+  - Xinhao Yi
+  - Yuyue Zhao
+  - Shuyu Guo
+  - Wenxiang Hu
+  - Jan Piotrowski
+  - Jakub Kaliski
+  - Jacopo Urbani
+  - Zaiqiao Meng
+  - Lun Zhou
+  - Xiaohui Yan
 institute: []
 date_publish: 2026-03
 venue: arXiv
-tags: [task-planning, auto-research]
+tags:
+  - auto-research
 url: https://arxiv.org/abs/2603.08127
 code:
 status: unread
 rating:
-date_added: "2026-03-26"
+date_added: 2026-03-26
 ---
 ## Summary
 提出 EvoScientist，一个自进化的多智能体框架，通过三个专用 agent（Researcher、Engineer、Evolution Manager）和两个持久记忆模块（Ideation Memory、Experimentation Memory），实现端到端科学发现中 idea 生成与代码执行策略的持续自我改进。

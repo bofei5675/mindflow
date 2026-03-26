@@ -26,23 +26,7 @@ An Obsidian-based knowledge management workspace for AI research. Content is wri
 
 All notes must follow their corresponding template in `Templates/`. Key conventions:
 
-- **Paper notes** use YAML frontmatter with: title, authors, date_publish (YYYY-MM-DD/YYYY-MM/YYYY), venue, tags, url, code, status (`unread`/`reading`/`finished`), rating (1-5), date_added
-- **Tags** 参照 `references/tag-taxonomy.md` 中定义的标准 tag，每篇笔记选取 2-4 个；如需新增 tag 请先更新该文件
 - **Connections** between notes use Obsidian `[[wikilinks]]`
-- Paper notes include a `mermaid mindmap` section summarizing the paper structure
-
-## AI Workflow for Paper Notes
-
-### Claude Code（主要方式）
-1. User 提供论文名称、关键词或链接
-2. Claude Code 根据链接抓取论文内容，或者根据名称和关键词搜索内容
-3. 按 `Templates/Paper.md` 格式生成笔记
-4. 保存到 `Papers/YYMM-ShortTitle.md`
-5. User 在 Obsidian 中阅读、修改
-
-### 外部 AI 工具
-1. 复制 `Resources/AI-Prompts.md` 中的 prompt，附上论文信息发给 AI
-2. AI 输出笔记内容，User 粘贴到 Obsidian 并补充 frontmatter 和链接
 
 ## MindFlow Skill System
 
