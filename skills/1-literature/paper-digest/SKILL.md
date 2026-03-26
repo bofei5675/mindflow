@@ -72,7 +72,7 @@ paper-digest 是 MindFlow 最基础的文献技能。给定一篇论文的来源
 
 **去重检查**：用 Glob 扫描 `Papers/` 目录，检查是否已存在同名或同主题笔记（搜索标题关键词）。若发现重复，停止并告知 Human，不创建新文件。
 
-**Tag 选择**：阅读 `references/Tag-Taxonomy.md`，按照规范选择 tag。
+**Tag 选择**：阅读 `references/tag-taxonomy.md`，按照规范选择 tag。
 
 ### Step 4：生成笔记
 
@@ -148,7 +148,7 @@ date_added: "<今天日期 YYYY-MM-DD>"
 2. WebFetch `https://arxiv.org/html/2603.08127` 获取 HTML 全文
 3. 提炼 Problem / Method / Results / Strengths & Weaknesses
 4. Glob `Papers/2603-*.md` 检查是否重复
-5. 读取 `references/Tag-Taxonomy.md` 选取合适 tags
+5. 读取 `references/tag-taxonomy.md` 选取合适 tags
 6. Grep `Papers/` 和 `Ideas/` 搜索相关笔记
 7. 写入 `Papers/2603-EvoScientist.md`
 8. 追加日志到 `Workbench/logs/2026-03-26.md`
