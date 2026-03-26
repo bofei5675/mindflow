@@ -4,7 +4,7 @@ authors: [Yougang Lyu, Xi Zhang, Xinhao Yi, Yuyue Zhao, Shuyu Guo, Wenxiang Hu, 
 institute: []
 date_publish: 2026-03
 venue: arXiv
-tags: [LLM, task-planning]
+tags: [task-planning, auto-research]
 url: https://arxiv.org/abs/2603.08127
 code:
 status: unread
@@ -105,4 +105,3 @@ mindmap
 - Related projects:
 
 ## Notes
-<!-- 建议新增 tag: `multi-agent`（多智能体系统/协作）和 `ai-scientist`（AI 科学发现），当前 Tag-Taxonomy 中未覆盖此方向 -->

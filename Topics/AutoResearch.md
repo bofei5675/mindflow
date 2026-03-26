@@ -1,7 +1,7 @@
 ---
 title: AutoResearch 项目全景调研
 tags:
-  - AutoResearch
+  - auto-research
 status: active
 date_updated: 2026-03-26
 ---

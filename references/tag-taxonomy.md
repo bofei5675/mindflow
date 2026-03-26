@@ -27,7 +27,6 @@
 | `VLA` | Vision-Language-Action 模型 |
 | `VLN` | Vision-Language Navigation 模型 |
 | `VLM` | Vision-Language Model（通用视觉语言模型） |
-| `LLM` | Large Language Model |
 | `flow-matching` | Flow matching 生成方法 |
 | `diffusion-policy` | Diffusion-based action generation |
 | `imitation-learning` | 模仿学习（含 behavior cloning、teleoperation） |
@@ -61,7 +60,9 @@
 | Tag | 说明 |
 |:----|:-----|
 | `web-agent` | Web agent、信息获取、MCP、浏览器自动化 |
+| `auto-research` | AI 自动化科研（含 AI scientist、自动论文生成、科学发现） |
 
 ## 更新记录
 
+- **2026-03-26** — 删除 `LLM` tag（过于宽泛），从 3 篇论文笔记中移除。新增 `auto-research` tag。全面校准：所有论文 tags 与 taxonomy 一致。
 - **2026-03-25** — 初始版本。从 79 个 tag 整理为 18 个，重新标注全部 26 个文件。

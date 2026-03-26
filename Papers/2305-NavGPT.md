@@ -4,7 +4,7 @@ authors: [Gengze Zhou, Yicong Hong, Qi Wu]
 institute: [University of Adelaide]
 date_publish: 2023-05
 venue: AAAI 2024
-tags: [VLN, LLM, navigation, task-planning]
+tags: [VLN, navigation, task-planning]
 url: https://arxiv.org/abs/2305.16986
 code: https://github.com/GengzeZhou/NavGPT
 status: reading
