@@ -1,6 +1,6 @@
 # Memory Protocol
 
-This document defines how MindFlow stores, organizes, and promotes research knowledge. The memory system transforms raw observations — logs, paper readings, experiment results — into structured, reusable insights that inform future research decisions.
+This document defines how MindFlow stores, organizes, and promotes research knowledge. The memory system transforms the Researcher's raw observations — logs, paper readings, experiment results — into structured, reusable insights that inform future research decisions.
 
 ---
 
@@ -19,7 +19,7 @@ Workbench/
   evolution/
     changelog.md           # Record of every Domain-Map update
   queue/
-    review.md              # Pending decisions requiring human approval
+    review.md              # Items to discuss with Supervisor
 ```
 
 ### Memory Files
@@ -72,7 +72,7 @@ Field notes:
 Field notes:
 - `original_hypothesis` preserves the reasoning at the time, not a post-hoc rationalization.
 - `lesson` should be actionable — what would a future researcher do differently?
-- `related_directions` helps the AI avoid recommending structurally similar dead ends.
+- `related_directions` helps the Researcher avoid recommending structurally similar dead ends.
 
 ### effective-methods.md
 
@@ -116,7 +116,7 @@ Level 4  ┌──────────────────────�
          │  Domain Map                     │  Domain-Map/_index.md + Domain-Map/{Name}.md
          │  Stable, integrated knowledge   │
          └────────────────┬────────────────┘
-                          │ AI promotes when it judges evidence sufficient
+                          │ Researcher promotes when it judges evidence sufficient
 Level 3  ┌────────────────▼────────────────┐
          │  Validated Insight              │  insights.md, status: validated
          │  ≥2 independent sources         │
@@ -142,10 +142,10 @@ Level 0  ┌────────────────▼─────�
 
 | Transition | Trigger | Who |
 |---|---|---|
-| L0 → L1 | `memory-distill` skill processes session logs and extracts recurring observations | AI (via skill) |
-| L1 → L2 | Pattern appears in ≥3 independent sources (different papers, experiments, or sessions) | AI (via skill) |
-| L2 → L3 | Provisional insight is supported by ≥2 independent evidence sources | AI (via skill) |
-| L3 → L4 | AI judges evidence sufficient for Domain Map integration → promotes directly. No numeric threshold — AI uses judgment. Logged to `Workbench/evolution/changelog.md` | AI |
+| L0 → L1 | `memory-distill` skill processes session logs and extracts recurring observations | Researcher (via skill) |
+| L1 → L2 | Pattern appears in ≥3 independent sources (different papers, experiments, or sessions) | Researcher (via skill) |
+| L2 → L3 | Provisional insight is supported by ≥2 independent evidence sources | Researcher (via skill) |
+| L3 → L4 | Researcher judges evidence sufficient for Domain Map integration → promotes directly. No numeric threshold — Researcher uses judgment. Logged to `Workbench/evolution/changelog.md` | Researcher |
 
 ---
 
@@ -162,6 +162,6 @@ Level 0  ┌────────────────▼─────�
    - **promoted_by**: <skill name or "human">
    ```
 
-3. **Human writes**: Humans may write directly to any memory file at any time without restrictions. Human entries are treated as authoritative and do not require evidence thresholds to be promoted manually.
+3. **Supervisor writes**: Supervisor may write directly to any memory file at any time without restrictions. Supervisor entries are treated as authoritative and do not require evidence thresholds to be promoted manually.
 
-4. **Conflict handling**: If a new insight contradicts an existing validated one, create a new `provisional` entry noting the contradiction. Do not modify the old entry. Flag the pair in `Workbench/queue/review.md` for human resolution.
+4. **Conflict handling**: If a new insight contradicts an existing validated one, create a new `provisional` entry noting the contradiction. Do not modify the old entry. Add to `Workbench/agenda.md` Discussion Topics if Researcher wants Supervisor input on resolution.

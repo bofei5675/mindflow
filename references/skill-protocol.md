@@ -1,6 +1,6 @@
 # Skill Protocol
 
-This document defines the SKILL.md format used by MindFlow AI skills. Every skill — whether atomic or orchestrating — must include a SKILL.md at its root. This file serves as the single source of truth for what a skill does, how it behaves, what it requires, and what it produces.
+This document defines the SKILL.md format used by MindFlow skills. Every skill — whether atomic or orchestrating — must include a SKILL.md at its root. This file serves as the single source of truth for what a skill does, how it behaves, what it requires, and what it produces.
 
 ---
 
@@ -49,15 +49,15 @@ Each SKILL.md begins with YAML frontmatter enclosed by `---` delimiters. Fields 
 
 **`roles` values:**
 
-- `autopilot` — skill runs end-to-end without human input
-- `copilot` — skill drafts or proposes; human reviews before finalizing
-- `sparring` — skill engages in back-and-forth dialogue with the human
+- `autopilot` — skill runs end-to-end without Supervisor input
+- `copilot` — skill drafts or proposes; Supervisor reviews before finalizing
+- `sparring` — skill engages in back-and-forth dialogue with the Supervisor
 
 **`autonomy` values:**
 
 - `high` — may create files, update memory, and modify agenda without confirmation
 - `medium` — may read and draft; must confirm before writing to shared state
-- `low` — proposes only; all writes require explicit human approval
+- `low` — proposes only; all writes require explicit Supervisor approval
 
 **`allowed-tools` values** (Claude Code tool names):
 
@@ -115,7 +115,7 @@ Every SKILL.md body must include the following sections. Sections are written as
 | Section | Required | Purpose |
 |---|---|---|
 | `## Purpose` | Yes | What problem this skill solves and why it exists |
-| `## Steps` | Yes | Numbered, step-by-step execution instructions for the AI |
+| `## Steps` | Yes | Numbered, step-by-step execution instructions for the Researcher |
 | `## Guard` | Yes | Preconditions, invariants, and prohibited actions |
 | `## Examples` | Recommended | Concrete input/output examples or usage scenarios |
 
@@ -128,7 +128,7 @@ Explain the skill's goal in 2-5 sentences. Include:
 
 ### Steps
 
-A numbered list of executable instructions. Each step should be unambiguous enough for an AI to follow without clarification. Use sub-steps where needed. Reference other skills using their kebab-case names.
+A numbered list of executable instructions. Each step should be unambiguous enough for the Researcher to follow without clarification. Use sub-steps where needed. Reference other skills using their kebab-case names.
 
 ```markdown
 ## Steps
@@ -212,7 +212,7 @@ A skill that sequences or conditions other skills to accomplish a compound goal.
 
 A skill that operates across the entire vault or research state. It may invoke multiple Level 1 skills, modify `agenda.md`, update memory files, or trigger cross-cutting evolution.
 
-- Typically run on a schedule or by explicit human command
+- Typically run on a schedule or by explicit Supervisor command
 - High privilege: `autonomy: high` and broad `allowed-tools`
 - Must have an especially strict `## Guard` section
 - Example: `memory-distill`, `agenda-sync`, `vault-health-check`
