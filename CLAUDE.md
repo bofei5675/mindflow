@@ -6,27 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 An Obsidian-based knowledge management workspace for AI research. Content is written in mixed Chinese/English style (中英混用): Chinese prose with English technical terms.
 
-## Repository Structure
-
-- `Papers/` — Paper notes, named `YYMM-ShortTitle.md` (e.g., `2603-RoboClaw.md`), YYMM 取自 date_publish
-- `Ideas/` — Research ideas (status: raw → developing → validated → archived)
-- `Projects/` — Project tracking (status: planning → active → paused → completed)
-- `Topics/` — Literature survey/comparison notes
-- `Meetings/` — Meeting notes, named `YYYY-MM-DD-Description.md`
-- `Daily/` — Daily research logs, named `YYYY-MM-DD.md`
-- `Templates/` — Obsidian templates for each note type
-- `Attachments/` — File attachments
-- `references/` — Protocol documents and tag taxonomy
-- `skills/` — MindFlow skill definitions
-- `Workbench/` — AI working state (agenda, memory, queue, logs)
-- `Experiments/` — Experiment records
-- `Reports/` — AI-generated reports
-
-## Creating Notes
-
-All notes must follow their corresponding template in `Templates/`. Key conventions:
-
-- **Connections** between notes use Obsidian `[[wikilinks]]`
+系统设计、目录结构、约定详见 → `SPEC.md`（single source of truth）。本文件聚焦 AI 操作指令。
 
 ## MindFlow Skill System
 
@@ -35,7 +15,7 @@ MindFlow 使用标准化的 Markdown skill 来自动化科研工作流。Skills 
 ### 核心概念
 - **Skills**: 定义在 `skills/<category>/<name>/SKILL.md` 中的可执行能力单元
 - **Workbench/**: AI 的工作状态（agenda、memory、queue、logs），Human 可随时查看和编辑
-- **Topics/Domain-Map.md**: Human-AI 共同维护的核心认知地图
+- **Domain-Map/**: Human-AI 共同维护的核心认知地图，`_index.md` 为索引页，每个 domain 一个文件（如 `VLA.md`、`VLN.md`）
 
 ### 自然语言触发
 

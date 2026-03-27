@@ -113,7 +113,7 @@ Knowledge is promoted upward through five levels as evidence accumulates. Promot
 
 ```
 Level 4  ┌─────────────────────────────────┐
-         │  Domain Map                     │  Topics/Domain-Map.md
+         │  Domain Map                     │  Domain-Map/_index.md + Domain-Map/{Name}.md
          │  Stable, integrated knowledge   │
          └────────────────┬────────────────┘
                           │ AI auto-promote (confidence > 0.8, ≥2 sources)
@@ -154,7 +154,7 @@ Level 0  ┌────────────────▼─────�
 
 1. **Append-only**: Never edit or delete existing entries in memory files. To supersede an entry, append a new one with an updated date and reference the old entry if needed.
 
-2. **Domain-Map logging**: Every time an entry is added to any `Topics/Domain-Map.md` file (at Level 4), a corresponding log entry must be written to `Workbench/evolution/changelog.md`. Format:
+2. **Domain-Map logging**: Every time an entry is added to any `Domain-Map/{Name}.md` file (at Level 4), a corresponding log entry must be written to `Workbench/evolution/changelog.md`. Format:
 
    ```markdown
    ### [YYYY-MM-DD] Domain Map updated: <map name>

@@ -55,7 +55,7 @@ cross-paper-analysis 是 MindFlow 的核心洞察发现机制，承担"去伪存
 
 **读取背景认知**：
 
-- 读取 `Topics/Domain-Map.md`，了解当前 Established Knowledge 和 Active Debates，避免重复标注已知共识。
+- 读取 `Domain-Map/_index.md`（索引页）找到相关 domain，再读取对应的 `Domain-Map/{Name}.md`，了解当前 Established Knowledge 和 Active Debates，避免重复标注已知共识。
 - 读取 `Workbench/memory/patterns.md`，了解已记录的 pattern，避免重复追加。
 
 ### Step 2：构建对比表
@@ -85,7 +85,7 @@ cross-paper-analysis 是 MindFlow 的核心洞察发现机制，承担"去伪存
 收集所有标注 `[共识]` 的条目，整理为列表：
 
 - 每条共识注明支持它的论文数量和 wikilinks（`≥2` 篇方可列为共识）。
-- 评估是否已在 `Topics/Domain-Map.md` 的 Established Knowledge 中记录；若未记录，标注"建议加入 Domain-Map"。
+- 评估是否已在对应 `Domain-Map/{Name}.md` 的 Established Knowledge 中记录；若未记录，标注"建议加入 Domain-Map"。
 
 #### （2）矛盾 → 待解决的开放问题
 
@@ -94,7 +94,7 @@ cross-paper-analysis 是 MindFlow 的核心洞察发现机制，承担"去伪存
 - 明确矛盾的具体内容（两篇论文各自的说法）。
 - 尝试分析矛盾来源：实验设置差异？评测 benchmark 不同？问题定义范围不同？还是真正的理论分歧？
 - 所有矛盾标记为"待验证"，不得在此时下确定性结论。
-- 检查 `Topics/Domain-Map.md` 的 Active Debates 是否已记录；若未记录，标注"建议加入 Domain-Map"。
+- 检查对应 `Domain-Map/{Name}.md` 的 Active Debates 是否已记录；若未记录，标注"建议加入 Domain-Map"。
 
 将矛盾列表追加到 `Workbench/queue/questions.md`（若文件不存在，先用 Write 创建，包含一级标题 `# Open Questions`）：
 
@@ -195,7 +195,7 @@ tags: []
 ## Guard
 
 - **Papers/ 只读**：不得修改任何 `Papers/` 目录下的笔记文件，所有 Paper 笔记均为只读输入。
-- **不直接修改 Domain-Map**：只在分析报告中提出"建议加入 Domain-Map"，不得直接写入或编辑 `Topics/Domain-Map.md`；Domain-Map 的更新由 Human 或 memory-distill 技能执行。
+- **不直接修改 Domain-Map**：只在分析报告中提出"建议加入 Domain-Map"，不得直接写入或编辑 `Domain-Map/` 下的任何文件；Domain-Map 的更新由 Human 或 memory-distill 技能执行。
 - **矛盾标记"待验证"**：对于识别出的矛盾，不得给出确定性结论，必须标注"待验证"，并尝试分析可能的原因而非直接判定哪篇论文正确。
 - **所有引用可追溯**：分析报告中的每条结论（共识、矛盾、空白）必须附有 `[[wikilink]]`，指向具体的 Paper 笔记，不得出现无来源的泛化陈述。
 - **不捏造内容**：所有分析必须来自实际读取到的笔记内容。若某笔记缺少某一节（如无 Strengths & Weaknesses），在对比表对应单元格注明"未记录"，不得推测或补全。
@@ -215,7 +215,7 @@ tags: []
 
 1. Grep `Papers/` frontmatter，搜索 `tags:.*VLA`，收集匹配笔记列表
 2. Read 每篇笔记的 Summary / Method / Key Results / Strengths & Weaknesses
-3. Read `Topics/Domain-Map.md` 和 `Workbench/memory/patterns.md`
+3. Read `Domain-Map/_index.md`（索引）→ 相关 `Domain-Map/{Name}.md` + `Workbench/memory/patterns.md`
 4. 以 method comparison 为主轴构建对比表，标注 `[共识]`/`[矛盾]`/`[独特]`
 5. 归纳共识（如"VLA 普遍依赖 large-scale pretraining"）
 6. 标出矛盾（如"论文 A 和论文 B 对 in-context learning 效果的结论相悖"），追加到 `Workbench/queue/questions.md`
