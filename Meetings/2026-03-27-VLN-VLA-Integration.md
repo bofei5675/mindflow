@@ -2,8 +2,8 @@
 title: VLN与VLA结合方向讨论
 date: 2026-03-27
 attendees:
-  - 李庆
   - Jack
+  - Qing
 tags:
   - VLN
   - VLA
@@ -98,8 +98,7 @@ tags:
 
 ## Action Items
 
-- [ ] 李庆：重点推进 navigation skill 的研究，先在场景级别做到鲁棒稳定，再与 VLA 融合
-- [ ] 李庆：与苏一飞沟通，了解 experience 数据中 navigation 相关内容的使用方式
+- [ ] Qing：重点推进 navigation skill 的研究，先在场景级别做到鲁棒稳定，再与 VLA 融合
+- [ ] Qing：与苏一飞沟通，了解 experience 数据中 navigation 相关内容的使用方式
 - [ ] 共同：五六月份考虑部分机器用于场景级 improvise 采集
-- [ ] 共同：4月中下旬 Jack 来工区时线下进一步讨论
 

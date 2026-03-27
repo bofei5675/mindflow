@@ -18,21 +18,71 @@ MindFlow 是一个基于 Obsidian 的 **Human-AI 协作科研知识管理系统*
 
 ## 2. Architecture
 
+### 双层设计
+
 ```
-┌──────────────────────────────────────────────────┐
-│                  Human Layer                      │
-│  Obsidian UI · 阅读笔记 · 编辑 Domain Map · 审批  │
-└──────────────────┬───────────────────────────────┘
-                   │ Markdown 读写
-┌──────────────────▼───────────────────────────────┐
-│                   AI Layer                        │
-│  Claude Code · Skills · Memory · Autopilot Loop   │
-└──────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────┐
+│  Layer 2: Orchestrator (optional) 🔮 Planned     │
+│  Scheduler · Memory Index · Notifier ·           │
+│  Agent Bridge                                    │
+├─────────────────────────────────────────────────┤
+│  Layer 1: Skill Protocol (core) ✅ Implemented   │
+│  skills/*.md · Workbench/ · Templates/           │
+│  Zero dependency, any agent can execute          │
+├─────────────────────────────────────────────────┤
+│  Obsidian Vault (Markdown)                       │
+│  Papers/ Topics/ Ideas/ Domain-Map/              │
+│  Workbench/ (AI working state)                   │
+└─────────────────────────────────────────────────┘
 ```
 
-**两种协作模式**：
-- **Copilot**：AI 生成草稿 → Human 确认 → 写入（默认模式）
-- **Autopilot**：AI 自主执行低风险操作（如 paper-digest），高风险操作（如修改 Domain Map）需 Human 审批
+**Layer 1（核心）**：纯 Markdown skill + vault 模板 + 协议文档。零依赖，任何支持文件读写的 AI agent 均可执行。当前已实现。
+
+**Layer 2（可选）** 🔮：当需要 AI 完全自主运行时启用。包括：
+- `scheduler/` — Cron / 事件驱动的任务调度
+- `memory_index/` — 基于向量的记忆检索（从 Markdown 可重建）
+- `notifier/` — 推送通知（Telegram / Email 等）
+- `agent_bridge/` — 统一 agent 抽象（Claude Code / Codex / Gemini CLI）
+
+**接口契约**：Layer 2 只读写 vault Markdown 文件，不引入 Layer 1 不知道的状态。同一个 skill 无论由 Human 手动触发还是 Layer 2 调度，行为完全一致。
+
+### 四种角色模式
+
+| 模式 | AI 角色 | Human 角色 | 触发条件 | 状态 |
+|:-----|:--------|:-----------|:---------|:-----|
+| **Copilot** | 执行具体任务 | 在线，给指令 | Human 发起 + 明确命令 | ✅ |
+| **Autopilot** | 自主探索 | 离线，事后审阅 | Human 离线 + agenda 有活跃方向 | ✅ 部分 |
+| **Sparring** | 辩论伙伴 | 在线，讨论 idea | Human 发起 + 开放性问题 | 🔮 |
+| **Reporter** | 结构化汇报 | 离线，异步审阅 | 定期 / 重大发现 / 需要决策 | 🔮 |
+
+模式切换是**隐式**的——由交互上下文决定，不需要显式配置。例外：Autopilot 的权限边界在 `identity.md` 中显式定义（涉及信任边界）。
+
+**Report 格式** 🔮：
+
+```markdown
+# Reports/YYYY-MM-DD-{type}.md
+---
+type: weekly / discovery / decision-needed
+period: YYYY-MM-DD ~ YYYY-MM-DD
+---
+## Highlights
+[Top 1-3 findings with evidence links]
+
+## Progress by Direction
+### Direction A
+- **Actions taken**: ...
+- **Key findings**: ...
+- **Needs Human decision**: [yes/no]
+
+## New Discoveries
+[Unexpected patterns / notable new papers]
+
+## Questions for Human
+1. [Questions requiring Human judgment]
+
+## Resource Usage
+- Papers read: N / Experiments run: N / API tokens: ~N
+```
 
 ## 3. Directory Structure
 
@@ -159,7 +209,63 @@ L4: Domain Map      Domain-Map/{Name}.md             持久领域知识
 
 详见 → `references/memory-protocol.md`
 
-### 4.5 Workbench
+### 4.5 Evolution Mechanisms 🔮 Planned
+
+Memory System 的 L0→L4 晋升由三种进化机制驱动（改编自 EvoScientist）：
+
+| 机制 | 全称 | 触发时机 | 输入 | 输出 |
+|:-----|:-----|:---------|:-----|:-----|
+| **IDE** | Insight Direction Evolution | cross-paper-analysis 或 knowledge-synthesis 完成后 | Topics/ 分析 + Papers/ | 新方向 → `memory/insights.md`（provisional） |
+| **IVE** | Insight Validation Evolution | 研究方向被放弃时 | agenda.md 废弃方向 + 关联实验/论文 | 失败教训 → `memory/failed-directions.md` |
+| **ESE** | Experiment Strategy Evolution | 实验分析完成后 | `Experiments/<id>/` 全套文件 | 有效方法 → `memory/effective-methods.md` |
+
+### 4.6 Autopilot Core Loop (insight-loop) 🔮 Planned
+
+Autopilot 模式下 AI 的核心执行循环，每次触发执行一个完整 cycle：
+
+```
+insight-loop (one cycle)
+    │
+    ├── Phase 1: Orient — 读取 agenda + queue + memory + Domain Map，决定下一步
+    │   优先级：queue/review 紧急项 > Human 新增任务 > 待验证 insight
+    │         > agenda 最高优先级方向 > Domain Map Open Questions > paper-discovery
+    │
+    ├── Phase 2: Act — 查询 stage-skill-map.json，调用对应 skill（每 cycle 一个 action）
+    │   执行前检查 identity.md 权限边界；需审批的写入 queue/review.md 并跳过
+    │
+    ├── Phase 3: Learn — 记录日志 + 条件触发进化（IDE/IVE/ESE）+ 检查 insight 晋升
+    │
+    └── Phase 4: Report — 满足条件时生成 Report
+        条件：高置信度 insight 晋升 / 重大矛盾 / 实验结果异常 / 需要 Human 决策
+```
+
+**触发方式**：
+- Layer 1：Human 手动执行 `/insight-loop`
+- Layer 2：Daemon scheduler 自动触发（可配置频率）
+
+**错误处理**：
+- Skill 失败 → 记录日志，跳过本 cycle，不重试相同输入
+- API 超时 → 重试一次（60s 后），仍失败则跳过并写入 queue/review
+- 部分状态 → 利用 git commit/revert 实现原子性
+- 资源耗尽 → 进入 COMPACT mode（读摘要而非全文），仍失败则暂停 Autopilot 并触发 Reporter
+
+**API 预算**（定义在 `Workbench/identity.md`）：
+
+| 参数 | 默认值 | 说明 |
+|:-----|:-------|:-----|
+| `daily_token_limit` | 500k | 日 token 上限 |
+| `per_cycle_limit` | 50k | 单 cycle 上限 |
+| `expensive_action_threshold` | 100k | 超过此值需审批 |
+
+接近日上限时进入"节约模式"（仅处理 Human 队列，跳过自主探索）。
+
+**并发与冲突**（Layer 2 场景）：
+- AI 写共享文件前先读取当前版本，写后检查 git diff
+- 若文件在读写间被他人修改，AI 的版本写入 `.conflict` 文件并通知 Human
+- Append-only 文件（logs、queue、memory）冲突极少
+- Domain Map：AI 只追加新条目，Human 可自由修改/重排，结构冲突概率极低
+
+### 4.7 Workbench
 
 `Workbench/` 是 AI 的工作状态目录，Human 可随时查看和编辑：
 
@@ -228,5 +334,5 @@ AI（Claude Code）通过 `CLAUDE.md` 接收操作指令。关键约束：
 |:-----|:-----|:---------|
 | 2026-03-27 | Domain Map 从 `Topics/` 迁移到 vault 根目录 `Domain-Map/`，按 domain 拆分为独立文件 | CLAUDE.md, skills, references |
 | 2026-03-27 | `Templates/Paper.md` 扩充为 single source of truth（含 `%%` 注释指导），`paper-digest` SKILL.md Step 4 精简为引用模板 | Templates/, skills/ |
-| 2026-03-27 | 新增 SPEC.md 作为系统设计的 single source of truth | vault root |
+| 2026-03-27 | 新增 SPEC.md 作为系统设计的 single source of truth；补充 Layer 2、Role Fluidity、insight-loop、Evolution Mechanisms 等未实现设计 | vault root |
 | 2026-03-26 | 初始 vault 结构搭建，skill 系统、记忆协议、议程协议就位 | 全局 |
