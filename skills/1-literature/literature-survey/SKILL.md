@@ -1,6 +1,7 @@
 ---
 name: literature-survey
-description: 给定研究主题，搜索、消化并综合该领域文献全貌
+description: >
+  当 Supervisor 说"调研""survey""了解研究现状"，或需要系统了解某主题的文献全貌时，搜索外部文献、批量 digest、综合生成调研报告
 version: 1.0.0
 intent: orchestration
 capabilities: [search-retrieval, research-planning, agent-workflow]
@@ -24,6 +25,8 @@ input:
 output:
   - file: "Topics/{Topic}-Survey.md"
   - memory: "Workbench/logs/YYYY-MM-DD.md (append log entry)"
+budget:
+  max_web_calls: 10
 ---
 
 ## Purpose
@@ -220,6 +223,13 @@ scope:
 - **Papers/ 已有笔记只读**：不得修改 vault 中已存在的 Paper 笔记，只可读取。新论文的笔记由 paper-digest 创建。
 - **语言规范**：正文用中文撰写，英文技术术语保持英文不翻译。
 - **autonomy: copilot 模式**：若以 copilot 模式调用，在 Step 3 筛选完成后先输出候选论文列表给 Human 确认，确认后再执行 Step 4 批量 digest；最终 Survey 文件也先预览再写入。
+
+## Verify
+
+- [ ] `Topics/*-Survey.md` 已创建
+- [ ] 技术路线分类 ≥2 条
+- [ ] Paper Comparison 对比表论文数 ≥3
+- [ ] Open Problems 节非空
 
 ## Examples
 
