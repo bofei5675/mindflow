@@ -1,6 +1,7 @@
 ---
 name: memory-distill
-description: 从工作日志中蒸馏 pattern 和 insight 到记忆库
+description: >
+  当积累了多天工作日志、或 Supervisor 说"整理记忆""蒸馏"时，从日志中提取 pattern 和 insight 到记忆库。也可被 autoresearch 在合适时机自动调用
 version: 1.0.0
 intent: evolution
 capabilities: [research-planning, cross-validation]
@@ -146,6 +147,11 @@ memory-distill 是 MindFlow 记忆演化体系的基础技能。它定期扫描 
 - **不捏造 pattern**：只有在日志中确实出现的 observation 才能被提取为候选 pattern，不得基于推断或联想凭空生成。若某规律听起来合理但日志中找不到明确依据，不记录。
 - **晋升需引用具体证据**：将 pattern 晋升为 provisional insight，或将 provisional insight 标记为 validated 时，必须在 insight 的 `evidence` 字段中列出支撑该结论的所有具体日志来源。
 - **独立来源的判断**：同一天的多条日志条目不算作独立来源；独立来源需来自不同日期，或来自不同论文/实验的观察。
+
+## Verify
+
+- [ ] `Workbench/evolution/changelog.md` 已追加本次蒸馏记录
+- [ ] 蒸馏结果已记录（新增 pattern 数 + 晋升 insight 数，允许为 0 但须明确记录）
 
 ## Examples
 
