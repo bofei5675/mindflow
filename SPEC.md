@@ -3,7 +3,7 @@
 > 本文件是 MindFlow 的 **single source of truth**，记录系统的当前设计和约定。
 > CLAUDE.md 引用本文件提供结构信息，自身聚焦 Researcher 操作指令。
 
-**Last updated**: 2026-03-27
+**Last updated**: 2026-03-28
 
 ---
 
@@ -80,7 +80,13 @@ MindFlow/
 ├── Templates/           # Obsidian 模板（Paper.md, Idea.md, ...）
 ├── Attachments/         # 文件附件
 │
-├── skills/              # Skill 定义
+├── skills/              # Skill 定义（详见 §4.3）
+│   ├── 1-literature/    #   文献技能
+│   ├── 2-ideation/      #   创意技能
+│   ├── 3-experiment/    #   实验技能
+│   ├── 4-writing/       #   写作技能
+│   ├── 5-evolution/     #   进化技能
+│   └── 6-orchestration/ #   编排技能
 │
 ├── references/          # 协议文档
 │   ├── skill-protocol.md
@@ -142,18 +148,45 @@ Researcher 自由维护 Domain Map。
 
 Skill 是 MindFlow 的自动化核心——定义在 `skills/<category>/<name>/SKILL.md` 中的可执行能力单元。
 
-**格式**：YAML frontmatter（元数据）+ Purpose + Steps + Guard + Examples。
+**格式**：YAML frontmatter（元数据）+ Purpose + Steps + Guard + Verify + Examples。
 
 创建新 skill 或了解格式详情 → `references/skill-protocol.md`
 
-**当前 skills**：
+**架构**：核心循环 + 卫星 skill。`autoresearch`（L2 编排）读取 agenda/memory/queue 状态，判断下一个最高价值行动，调用对应卫星 skill。每个卫星 skill 也可被 Supervisor 自然语言直接触发。
 
-| Skill | 目录 | 功能 |
-|:------|:-----|:-----|
-| `paper-digest` | `skills/1-literature/` | 消化单篇论文 → Paper 笔记 |
-| `cross-paper-analysis` | `skills/1-literature/` | 跨论文对比分析 → 分析报告 |
-| `literature-survey` | `skills/1-literature/` | 主题级文献调研（搜索 + 批量 digest + 综合） |
-| `memory-distill` | `skills/5-evolution/` | 从日志蒸馏记忆（patterns → insights） |
+```
+               ┌─── autoresearch (L2) ───┐
+               │   读状态 → 判断 → 执行    │
+               └────┬──┬──┬──┬──┬────────┘
+                    │  │  │  │  │
+        ┌───────────┘  │  │  │  └───────────┐
+        ▼              ▼  ▼  ▼              ▼
+   1-literature   2-ideation  3-experiment  4-writing
+                       │         │
+                       ▼         ▼
+                  5-evolution → 更新 Workbench/ → 下一轮
+```
+
+**完整 skill 清单**（14 个）：
+
+| Category | Skill | Level | 功能 | 状态 |
+|:---------|:------|:------|:-----|:-----|
+| `1-literature` | `paper-digest` | L0 | 消化单篇论文 → Paper 笔记 | ✅ |
+| | `cross-paper-analysis` | L0 | 跨论文对比 → 共识/矛盾/空白 | ✅ |
+| | `literature-survey` | L1 | 主题级调研（搜索 + 批量 digest + 综合） | ✅ |
+| `2-ideation` | `idea-generate` | L0 | 从知识空白生成研究 idea | 🔮 |
+| | `idea-evaluate` | L0 | 评估 idea 可行性和新颖性 | 🔮 |
+| `3-experiment` | `experiment-design` | L0 | 设计实验方案 | 🔮 |
+| | `experiment-track` | L0 | 记录实验进展和结果 | 🔮 |
+| | `result-analysis` | L0 | 分析实验结果，提取 insight | 🔮 |
+| `4-writing` | `draft-section` | L0 | 起草论文/报告章节 | 🔮 |
+| | `writing-refine` | L0 | 打磨已有文稿 | 🔮 |
+| `5-evolution` | `memory-distill` | L2 | 从日志蒸馏记忆 | ✅ |
+| | `agenda-evolve` | L2 | 演化研究议程 | 🔮 |
+| | `memory-retrieve` | L0 | 从记忆库检索相关经验 | 🔮 |
+| `6-orchestration` | `autoresearch` | L2 | 核心研究循环（读状态→判断→执行→积累） | 🔮 |
+
+详细设计 → `docs/specs/2026-03-28-skill-system-design.md`
 
 ### 4.4 Memory System
 
@@ -221,18 +254,21 @@ L4: Domain Map      Domain-Map/{Name}.md             持久领域知识
 
 ## 7. Roadmap
 
-| Phase           | 内容                                                                                 | 状态     |
-| :-------------- | :--------------------------------------------------------------------------------- | :----- |
-| 1. Skeleton     | 仓库结构、协议文档、paper-digest / cross-paper-analysis / memory-distill / literature-survey | ✅ Done |
-| 2. Core Loop    | insight-loop、agenda-evolve、memory-retrieve、idea-generation                            | 🔮     |
-| 3. Experiment   | experiment-design、experiment-iterate、result-analysis                               | 🔮     |
-| 4. Orchestrator | daemon、scheduler、向量检索、notifier、agent-bridge                                        | 🔮     |
-| 5. Polish       | writing skills、完整文档、社区贡献指南、v0.1.0                                                  | 🔮     |
+| Phase | 内容 | 状态 |
+|:------|:-----|:-----|
+| 1. Skeleton | 仓库结构、协议文档、paper-digest / cross-paper-analysis / memory-distill / literature-survey | ✅ Done |
+| 1.5 Protocol | skill-protocol 改造（pushy description、Verify 节、budget 字段）+ 现有 skill 改造 | 🔮 |
+| 2. Core Loop | memory-retrieve、idea-generate、idea-evaluate、agenda-evolve | 🔮 |
+| 3. Experiment | experiment-design、experiment-track、result-analysis | 🔮 |
+| 4. Writing | draft-section、writing-refine | 🔮 |
+| 5. Orchestration | autoresearch（依赖 Phase 2-4 所有卫星 skill） | 🔮 |
+| 6. Orchestrator | daemon、scheduler、向量检索、notifier、agent-bridge（Layer 2） | 🔮 |
 
 ## 8. Changelog
 
 | 日期 | 变更 |
 |:-----|:-----|
+| 2026-03-28 | Skill System Design：14 skill 全景图（核心循环 + 卫星架构）、protocol 改造（Verify/pushy desc/budget）、Roadmap 重排 Phase 1.5-6 |
 | 2026-03-27 | Spec 精简至 ~250 行；补全目录结构（dist/docs/examples/website）、笔记类型表（Report）；明确 skill 编号约定；移除未定义缩写 |
 | 2026-03-27 | Spec 精简：从 ~600 行删减至 ~250 行。移除过度形式化的交互模式、Evolution 机制命名、insight-loop 详细实现、未实现的技术选型/仓库结构/Design Provenance。核心内容保留在协议文档和 design spec archive 中。 |
 | 2026-03-27 | 角色模型重定位：Human→Supervisor, AI→Researcher, PhD 导师制。移除所有 NEED APPROVAL 限制。 |

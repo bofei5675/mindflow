@@ -29,20 +29,38 @@ MindFlow 使用标准化的 Markdown skill 来自动化科研工作流。Skills 
 
 Supervisor 不需要记住 skill 名称，用自然语言即可触发：
 
-| Supervisor 说 | 触发 Skill | 执行 |
+| Supervisor 说 | 触发 Skill | 路径 |
 |--------|-----------|------|
-| "阅读论文 xxx" / "读一下这篇 xxx" / "digest this paper" | paper-digest | 读取 `.claude/skills/1-literature/paper-digest/SKILL.md` 并严格按其 Steps 执行 |
-| "对比这几篇论文" / "分析一下 VLA 相关论文" | cross-paper-analysis | 读取 `.claude/skills/1-literature/cross-paper-analysis/SKILL.md` 并执行 |
-| "调研一下 xxx" / "survey xxx" / "了解 xxx 研究现状" | literature-survey | 读取 `.claude/skills/1-literature/literature-survey/SKILL.md` 并执行 |
-| "整理一下最近的记忆" / "蒸馏记忆" | memory-distill | 读取 `.claude/skills/5-evolution/memory-distill/SKILL.md` 并执行 |
+| "阅读论文 xxx" / "读一下这篇" / "digest this paper" | paper-digest | `skills/1-literature/paper-digest/SKILL.md` |
+| "对比这几篇论文" / "分析一下 VLA 相关论文" | cross-paper-analysis | `skills/1-literature/cross-paper-analysis/SKILL.md` |
+| "调研一下 xxx" / "survey xxx" / "了解研究现状" | literature-survey | `skills/1-literature/literature-survey/SKILL.md` |
+| "想个 idea" / "有什么研究机会" | idea-generate | `skills/2-ideation/idea-generate/SKILL.md` |
+| "评估一下这个 idea" / "这个可行吗" | idea-evaluate | `skills/2-ideation/idea-evaluate/SKILL.md` |
+| "设计个实验" / "怎么验证这个" | experiment-design | `skills/3-experiment/experiment-design/SKILL.md` |
+| "记录实验结果" / "实验跑完了" | experiment-track | `skills/3-experiment/experiment-track/SKILL.md` |
+| "分析实验结果" | result-analysis | `skills/3-experiment/result-analysis/SKILL.md` |
+| "写一下 introduction" / "起草 related work" | draft-section | `skills/4-writing/draft-section/SKILL.md` |
+| "打磨一下" / "改改这段" | writing-refine | `skills/4-writing/writing-refine/SKILL.md` |
+| "整理一下最近的记忆" / "蒸馏记忆" | memory-distill | `skills/5-evolution/memory-distill/SKILL.md` |
+| "更新研究方向" / "复盘 agenda" | agenda-evolve | `skills/5-evolution/agenda-evolve/SKILL.md` |
+| "自己干活吧" / "开始研究" / "autoresearch" | autoresearch | `skills/6-orchestration/autoresearch/SKILL.md` |
 
-**重要**：触发 skill 时，必须先 Read 对应的 SKILL.md 文件，然后严格按照其中定义的 Steps 和 Guard 执行。不要凭记忆执行——每次都重新读取 SKILL.md。
+**重要**：触发 skill 时，必须先 Read 对应的 SKILL.md 文件，然后严格按照其中定义的 Steps、Guard 和 Verify 执行。不要凭记忆执行——每次都重新读取 SKILL.md。
 
-### 已有 Skills
+### Skills 概览
+
+**已实现**：
 - `paper-digest`: 消化论文生成笔记
 - `cross-paper-analysis`: 跨论文对比分析
-- `literature-survey`: 主题级文献调研（搜索 + 批量 digest + 综合分析）
+- `literature-survey`: 主题级文献调研
 - `memory-distill`: 从日志蒸馏记忆
+
+**待实现**（详见 `docs/specs/2026-03-28-skill-system-design.md`）：
+- `idea-generate` / `idea-evaluate`: 创意生成与评估
+- `experiment-design` / `experiment-track` / `result-analysis`: 实验全生命周期
+- `draft-section` / `writing-refine`: 写作技能
+- `agenda-evolve` / `memory-retrieve`: 进化技能
+- `autoresearch`: 核心研究循环（读状态→判断→执行→积累，持续运行）
 
 ### 协议文档
 - `references/skill-protocol.md`: Skill 编写规范

@@ -13,7 +13,7 @@ Each SKILL.md begins with YAML frontmatter enclosed by `---` delimiters. Fields 
 | Field | Type | Description |
 |---|---|---|
 | `name` | string (kebab-case) | Unique identifier for the skill, e.g. `paper-ingest` |
-| `description` | string | One-line summary of the skill's purpose |
+| `description` | string | Pushy trigger description (see below) |
 | `version` | string (semver) | Semantic version, e.g. `1.0.0` |
 | `intent` | enum | Primary research activity this skill supports (see values below) |
 | `capabilities` | string[] | Functional capabilities this skill uses (see values below) |
@@ -21,6 +21,14 @@ Each SKILL.md begins with YAML frontmatter enclosed by `---` delimiters. Fields 
 | `roles` | enum[] | Supported interaction modes (see values below) |
 | `autonomy` | enum | Default level of autonomous action (`high` / `medium` / `low`) |
 | `allowed-tools` | string[] | Claude Code tools this skill may invoke |
+
+**`description` — Pushy Trigger Principle:**
+
+Description 应积极触发（"pushy"）——明确描述**触发场景**，降低 under-triggering 风险。不要只写"做什么"，要写"什么情况下该用我"。
+
+| Bad | Good |
+|-----|------|
+| `消化一篇论文，生成结构化笔记` | `当 Supervisor 给出论文 URL/标题/PDF/DOI，或阅读队列中有待处理论文时，消化论文并生成结构化笔记到 Papers/` |
 
 **`intent` values:**
 
@@ -70,6 +78,7 @@ Each SKILL.md begins with YAML frontmatter enclosed by `---` delimiters. Fields 
 | `input` | object[] | Declared inputs; each object has `name` and `description` |
 | `output` | object[] | Declared outputs; each object has `file` (glob pattern) and `memory` (memory file to update) |
 | `related-skills` | string[] | Other skill names that compose well with this one |
+| `budget` | object | Resource limits for heavy skills. Fields: `max_web_calls` (int, WebSearch+WebFetch total), `timeout_hint` (string, e.g. "30min"). Omit for simple skills. |
 
 ### Example Frontmatter
 
@@ -116,7 +125,8 @@ Every SKILL.md body must include the following sections. Sections are written as
 |---|---|---|
 | `## Purpose` | Yes | What problem this skill solves and why it exists |
 | `## Steps` | Yes | Numbered, step-by-step execution instructions for the Researcher |
-| `## Guard` | Yes | Preconditions, invariants, and prohibited actions |
+| `## Guard` | Yes | Preconditions, invariants, and prohibited actions (during execution) |
+| `## Verify` | Recommended | Post-execution quality checklist — mechanical checks on output quality |
 | `## Examples` | Recommended | Concrete input/output examples or usage scenarios |
 
 ### Purpose
@@ -153,6 +163,21 @@ A bulleted list of rules the skill must never violate. These act as hard constra
 - Never modify `agenda.md` Mission section.
 - Do not mark an insight as `validated` without ≥2 independent evidence sources.
 - If `autonomy: low`, produce a draft only — do not write any files.
+```
+
+### Verify
+
+A checklist of mechanical assertions to run after execution completes. Each item must be objectively verifiable (no subjective judgments).
+
+**Verify vs Guard**: Guard constrains behavior _during_ execution ("don't do X"). Verify checks output quality _after_ execution ("did the output meet the bar?").
+
+```markdown
+## Verify
+
+- [ ] Output file exists and is non-empty
+- [ ] Frontmatter required fields are all populated
+- [ ] No `[TODO]` or `[TBD]` placeholders remain
+- [ ] All paper references use `[[wikilink]]` format
 ```
 
 ### Examples
@@ -224,7 +249,7 @@ A skill that operates across the entire vault or research state. It may invoke m
 | Element | Convention | Example |
 |---|---|---|
 | Skill directory name | kebab-case | `paper-ingest/` |
-| Category directory name | numbered prefix + kebab-case | `01-literature/` |
+| Category directory name | numbered prefix + kebab-case | `1-literature/` |
 | Skill entrypoint filename | Always uppercase | `SKILL.md` |
 | `name` field in frontmatter | Must match directory name exactly | `paper-ingest` |
 | `related-skills` entries | kebab-case, no path prefix | `["insight-extract", "tag-assign"]` |
@@ -235,19 +260,40 @@ A skill that operates across the entire vault or research state. It may invoke m
 
 ```
 skills/
-  01-literature/
-    paper-ingest/
+  1-literature/
+    paper-digest/
       SKILL.md
-    literature-review/
+    cross-paper-analysis/
       SKILL.md
-      references/
-        review-template.md
-  02-ideation/
-    hypothesis-gen/
+    literature-survey/
       SKILL.md
-  06-evolution/
+  2-ideation/
+    idea-generate/
+      SKILL.md
+    idea-evaluate/
+      SKILL.md
+  3-experiment/
+    experiment-design/
+      SKILL.md
+    experiment-track/
+      SKILL.md
+    result-analysis/
+      SKILL.md
+  4-writing/
+    draft-section/
+      SKILL.md
+    writing-refine/
+      SKILL.md
+  5-evolution/
     memory-distill/
       SKILL.md
-    agenda-sync/
+    agenda-evolve/
       SKILL.md
+    memory-retrieve/
+      SKILL.md
+  6-orchestration/
+    autoresearch/
+      SKILL.md
+      references/
+        judge-heuristics.md
 ```
