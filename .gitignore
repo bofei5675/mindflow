@@ -1,12 +1,7 @@
 .DS_Store
 
-# Obsidian - volatile workspace state
-.obsidian/workspace.json
-.obsidian/workspaces.json
-.obsidian/graph.json
-
-# Obsidian plugins (large binaries)
-.obsidian/plugins/
+# Obsidian - all config and plugins
+.obsidian/
 
 # Claude Code
 .claude/
