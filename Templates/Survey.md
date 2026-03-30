@@ -22,6 +22,14 @@ papers_analyzed:
 
 %% Paper 列用 [[wikilink]] 格式 %%
 
+## Datasets & Benchmarks
+
+| Dataset | 规模 | 评估指标 | 特点 |
+|:--------|:-----|:---------|:-----|
+|         |      |          |      |
+
+%% 该领域主要数据集和评测基准，根据 topic 补充相关列 %%
+
 ## Key Takeaways
 %% 3-5 条核心结论 %%
 
