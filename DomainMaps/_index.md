@@ -1,5 +1,5 @@
 ---
-last_updated: "2026-03-27"
+last_updated: "2026-03-30"
 ---
 
 # Domain Map
@@ -21,3 +21,4 @@ last_updated: "2026-03-27"
 
 - **VLN-VLA 架构趋同**：两个领域都在向 hierarchical VLM reasoning + low-level policy execution 的架构收敛。详见 [[VLN-VLA-Unification]]。
 - **Spatial representation 是统一的关键瓶颈**：VLN 依赖显式空间表示（topological map），VLA 通常无显式空间表示（end-to-end）。3D scene graph 是最有潜力同时服务两者的表示形式。详见 [[DomainMaps/SpatialRep|SpatialRep]]。
+- **Embodied Reasoning 是跨 domain 核心能力**：GRPO-based RL 已成为 embodied reasoning 的 de facto 训练范式（Robot-R1, Embodied-R, Embodied-R1），in-domain reasoning data 远比 OOD 数据有效（VLASER），explicit spatial representation 大幅提升 navigation reasoning。详见 [[Topics/Embodied-Reasoning-Survey|Embodied Reasoning Survey]]。
