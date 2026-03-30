@@ -1,12 +1,20 @@
 ---
-domain: Spatial Representation
-title: "语义 SLAM 与空间表示"
-last_updated: "2026-03-27"
-contributors: [ai]
-sources: [VLN-VLA-Unification]
+title: Spatial Representation
+last_updated: 2026-03-27
 ---
+## Overview
 
-# Spatial Representation Domain Map
+为 embodied agent 构建语义丰富的空间表示，支撑导航与操作。核心问题：如何设计一种 shared spatial representation 同时服务 VLN 的路径规划和 VLA 的物体操作？
+
+**发展现状**：三类方案并行发展——dense feature maps（VLMaps）、3D scene graphs（ConceptGraphs）、neural/Gaussian fields（SplaTAM）。MTU3D 推动了 online spatial memory 方向。但 real-time incremental update 和 Nav+Manip 统一表示仍未解决，领域仍在快速发展中。
+
+## Core Concepts
+
+- **Semantic SLAM**: 在 SLAM 基础上融合语义信息（object class、language description）的空间建图方法
+- **3D Scene Graph**: 以 object 为节点、spatial/semantic relation 为边的层次化场景表示
+- **Dense Feature Map**: 每像素存储 VLM feature 的稠密表示（如 VLMaps），支持 open-vocabulary 空间查询
+- **Neural/Gaussian Field**: 用 neural implicit 或 Gaussian Splatting 表示的连续 3D 场景（如 SplaTAM）
+- **Online Spatial Memory**: 从 RGB-D 流实时增量构建的空间记忆，无需离线重建
 
 ## Established Knowledge
 

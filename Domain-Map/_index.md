@@ -1,6 +1,5 @@
 ---
 last_updated: "2026-03-27"
-contributors: [human, ai]
 ---
 
 # Domain Map
@@ -16,11 +15,9 @@ contributors: [human, ai]
 | VLN | [[Domain-Map/VLN\|VLN]] | Vision-Language Navigation | 2026-03-27 |
 | Spatial Representation | [[Domain-Map/SpatialRep\|SpatialRep]] | 语义 SLAM 与空间表示 | 2026-03-27 |
 
-> 新增 domain：创建 `Domain-Map/{Name}.md`，复制四象限结构，在上表添加一行。
+> 新增 domain：创建 `Domain-Map/{Name}.md`，使用 `Templates/DomainMap.md` 模板（Overview → Core Concepts → Established Knowledge → Active Debates → Open Questions → Known Dead Ends），在上表添加一行。
 
 ## Cross-Domain Insights
-
-跨 domain 的洞察和关联记录在此，避免信息孤岛。
 
 - **VLN-VLA 架构趋同**：两个领域都在向 hierarchical VLM reasoning + low-level policy execution 的架构收敛。详见 [[VLN-VLA-Unification]]。
 - **Spatial representation 是统一的关键瓶颈**：VLN 依赖显式空间表示（topological map），VLA 通常无显式空间表示（end-to-end）。3D scene graph 是最有潜力同时服务两者的表示形式。详见 [[Domain-Map/SpatialRep|SpatialRep]]。

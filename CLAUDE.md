@@ -25,28 +25,6 @@ MindFlow 使用标准化的 Markdown skill 来自动化科研工作流。Skills 
 - **Workbench/**: Researcher 的工作状态（agenda、memory、queue、logs），Supervisor 可随时查看和编辑
 - **Domain-Map/**: Supervisor-Researcher 共同维护的核心认知地图，`_index.md` 为索引页，每个 domain 一个文件（如 `VLA.md`、`VLN.md`）
 
-### 自然语言触发
-
-Supervisor 不需要记住 skill 名称，用自然语言即可触发：
-
-| Supervisor 说 | 触发 Skill | 路径 |
-|--------|-----------|------|
-| "阅读论文 xxx" / "读一下这篇" / "digest this paper" | paper-digest | `skills/1-literature/paper-digest/SKILL.md` |
-| "对比这几篇论文" / "分析一下 VLA 相关论文" | cross-paper-analysis | `skills/1-literature/cross-paper-analysis/SKILL.md` |
-| "调研一下 xxx" / "survey xxx" / "了解研究现状" | literature-survey | `skills/1-literature/literature-survey/SKILL.md` |
-| "想个 idea" / "有什么研究机会" | idea-generate | `skills/2-ideation/idea-generate/SKILL.md` |
-| "评估一下这个 idea" / "这个可行吗" | idea-evaluate | `skills/2-ideation/idea-evaluate/SKILL.md` |
-| "设计个实验" / "怎么验证这个" | experiment-design | `skills/3-experiment/experiment-design/SKILL.md` |
-| "记录实验结果" / "实验跑完了" | experiment-track | `skills/3-experiment/experiment-track/SKILL.md` |
-| "分析实验结果" | result-analysis | `skills/3-experiment/result-analysis/SKILL.md` |
-| "写一下 introduction" / "起草 related work" | draft-section | `skills/4-writing/draft-section/SKILL.md` |
-| "打磨一下" / "改改这段" | writing-refine | `skills/4-writing/writing-refine/SKILL.md` |
-| "整理一下最近的记忆" / "蒸馏记忆" | memory-distill | `skills/5-evolution/memory-distill/SKILL.md` |
-| "更新研究方向" / "复盘 agenda" | agenda-evolve | `skills/5-evolution/agenda-evolve/SKILL.md` |
-| "自己干活吧" / "开始研究" / "autoresearch" | autoresearch | `skills/6-orchestration/autoresearch/SKILL.md` |
-
-**重要**：触发 skill 时，必须先 Read 对应的 SKILL.md 文件，然后严格按照其中定义的 Steps、Guard 和 Verify 执行。不要凭记忆执行——每次都重新读取 SKILL.md。
-
 ### Skills 概览
 
 **已实现**（14 个）：
@@ -69,9 +47,3 @@ Supervisor 不需要记住 skill 名称，用自然语言即可触发：
 - `references/skill-protocol.md`: Skill 编写规范
 - `references/memory-protocol.md`: 记忆格式和晋升规则
 - `references/agenda-protocol.md`: 研究议程管理规则
-
-## Key Conventions
-
-- No build system, tests, or linting — this is a pure Markdown/Obsidian vault
-- `.obsidian/plugins/` is gitignored (plugin binaries); core Obsidian config files are tracked
-- The Claudian plugin is used for in-Obsidian AI interaction
