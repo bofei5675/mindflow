@@ -35,11 +35,5 @@ mindmap
     Results
 ```
 
-## Connections
-%% 用 Grep 在 Papers/ 和 Ideas/ 中搜索方法名、任务名等关键词，填入 [[wikilinks]] %%
-- Related papers:
-- Related ideas:
-- Related projects:
-
 ## Notes
 %% 其他想法、疑问、启发。留空供后续填写。 %%

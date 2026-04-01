@@ -8,14 +8,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
 
 ## Purpose
 
-literature-survey 是 MindFlow 的主题级文献调研技能。给定一个研究主题，它主动搜索外部文献、自动调用 paper-digest 生成结构化笔记，最终综合所有论文产出一份领域调研报告。
-
-它与其他文献技能的分工：
-- `paper-digest`：处理**单篇**论文 → Paper 笔记
-- `cross-paper-analysis`：对比 vault **已有**论文 → 分析报告
-- `literature-survey`：给定**主题**，向外搜索 → 批量 digest → 综合调研报告
-
-该技能是 Level 1 Orchestration skill，会调用 paper-digest 作为子步骤。
+给定一个研究主题，主动搜索外部文献、自动调用 paper-digest 生成结构化笔记，最终综合所有论文产出一份领域调研报告。
 
 ## Steps
 

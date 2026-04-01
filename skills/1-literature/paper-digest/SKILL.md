@@ -8,9 +8,9 @@ allowed-tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
 
 ## Purpose
 
-paper-digest 是 MindFlow 最基础的文献技能。给定一篇论文或技术 blog 的来源（URL、PDF 路径、标题或 DOI），它自动获取内容、提炼核心信息，并按照 `Templates/Paper.md` 格式生成结构化笔记保存至 `Papers/`。
+给定一篇论文或技术 blog 的来源（URL、PDF 路径、标题或 DOI），它自动获取内容、提炼核心信息，并按照 `Templates/Paper.md` 格式生成结构化笔记保存至 `Papers/`。
 
-它是 literature-survey 等高阶技能的基础组件。支持两种内容类型：
+支持两种内容类型：
 - **论文**：arXiv、PDF、DOI 等学术论文
 - **Blog**：技术博客文章（如 Google Research Blog、Lilian Weng、公司技术博客等）
 
@@ -40,12 +40,14 @@ paper-digest 是 MindFlow 最基础的文献技能。给定一篇论文或技术
 
 ### Step 2：阅读并理解
 
+**Read Critically**——论文不是圣经。找出隐含假设和适用边界，ablation、failure case、baseline 选择往往比 main result 更有信息量。对高引论文同样保持批判。
+
 通读获取到的内容，重点提炼以下四个维度：
 
 1. **Problem & Motivation**：作者要解决什么问题？现有方法有什么局限？为什么这个问题重要？
 2. **Method**：核心方法/架构是什么？关键设计选择有哪些？用简洁的中文描述，保留必要的英文术语。对于 blog，此处提炼文章的核心论点或技术方案。
 3. **Key Results**：主要实验结果是什么？在哪些 benchmark 上取得了什么指标？核心 takeaway 是什么？对于 blog，提炼关键结论、数据或 demo 效果。
-4. **Strengths & Weaknesses**：方法的亮点与局限，以及对该领域的潜在影响。
+4. **Strengths & Weaknesses**：方法的亮点与局限，以及对该领域的潜在影响。严格区分已知、推测、不知道——不 overclaim，不掩盖方法的局限。
 
 如果只能获取 abstract 而非全文，在所有内容区块开头加注：`> [未获取全文，仅基于 abstract]`
 
@@ -67,10 +69,8 @@ paper-digest 是 MindFlow 最基础的文献技能。给定一篇论文或技术
 
 补充规则（模板未涵盖的）：
 - **rating**：必填，按模板中的 1-5 分制评分，基于内容质量和与当前研究方向的相关性综合判断
-- **语言**：正文用中文撰写，英文技术术语（模型名、方法名、benchmark 名）保持英文不翻译
 - **未获取全文**：在受影响的章节开头加注 `> [未获取全文，仅基于 abstract]`，不得推测正文内容
 - **date_added**：填写今天日期，格式 `YYYY-MM-DD`
-- **Connections 搜索范围**：用 Grep 在 `Papers/` 搜索方法名/任务名，在 `Ideas/` 搜索相关关键词，填入 `[[wikilinks]]`；若无相关内容，对应子项留空
 
 ### Step 5：保存并记录
 
