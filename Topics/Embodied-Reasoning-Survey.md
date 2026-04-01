@@ -73,61 +73,18 @@ papers_analyzed: 18
 
 **劣势**：依赖外部感知模块（depth estimation、3D reconstruction），实时性受限，场景表征构建成本高。
 
-## 发展时间线
-
-| 时间 | 里程碑 | 论文 |
-|:-----|:-------|:-----|
-| 2023.07 | VLA 范式开创：VLM → robot action | [[Papers/2307-RT2\|RT-2]] |
-| 2024.01 | Internet-scale spatial reasoning data | [[Papers/2401-SpatialVLM\|SpatialVLM]] |
-| 2024.07 | Embodied CoT 范式提出 | [[Papers/2407-ECoT\|ECoT]] |
-| 2025.02 | 综合 embodied agent benchmark | [[Papers/2502-EmbodiedBench\|EmbodiedBench]] |
-| 2025.03 | Gemini Robotics 提出 ERQA benchmark | [[Papers/2503-GeminiRobotics\|Gemini Robotics]] |
-| 2025.04 | Perception-reasoning 解耦 + logical consistency reward | [[Papers/2504-EmbodiedR\|Embodied-R]] |
-| 2025.06 | GRPO for embodied reasoning (NeurIPS) | [[Papers/2506-RobotR1\|Robot-R1]] |
-| 2025.07 | 统一 grounding-exploration 决策框架 | [[Papers/2507-MTU3D\|MTU3D]] |
-| 2025.08 | Pointing as embodiment-agnostic reasoning | [[Papers/2508-EmbodiedR1\|Embodied-R1]] |
-| 2025.09 | Step-by-step reasoning 质量评估 | [[Papers/2509-FoMER\|FoMER]] |
-| 2025.10 | In-domain reasoning data 关键性验证 | [[Papers/2510-VLASER\|VLASER]] |
-| 2025.12 | GRPO for VLN + 结构化推理 VLA | [[Papers/2512-ETPR1\|ETP-R1]], [[Papers/2512-Lumo1\|Lumo-1]] |
-| 2026.01 | 10B embodied VLM + hierarchical scene graph VLN | [[Papers/2601-Thinker\|Thinker]], [[Papers/2601-SpatialNav\|SpatialNav]] |
-| 2026.02 | Embodied-Native VLA + explicit world representation VLN | [[Papers/2602-DM0\|DM0]], [[Papers/2602-GTA\|GTA]] |
-| 2026.03 | Streaming spatial-semantic VLN | [[Papers/2603-PROSPECT\|PROSPECT]] |
-
-## Paper Comparison
-
-| Paper | Venue | 技术路线 | 核心方法 | 关键结果 | 局限性 |
-|:------|:-----|:---------|:---------|:---------|:-------|
-| [[Papers/2307-RT2\|RT-2]] | arXiv 2023 | CoT reasoning | VLM → action tokens, emergent reasoning | 首次 web knowledge → robot control | 端到端黑盒，无显式推理 |
-| [[Papers/2401-SpatialVLM\|SpatialVLM]] | CVPR 2024 | Data-centric | 2B spatial VQA from 10M images | 首个 internet-scale 空间推理数据集 | 定量精度有限 (37.2%) |
-| [[Papers/2407-ECoT\|ECoT]] | arXiv 2024 | CoT reasoning | 6-step embodied CoT + auto data gen | 7B > RT-2-X (55B), 空间任务 +45% | 固定推理结构，额外延迟 |
-| [[Papers/2502-EmbodiedBench\|EmbodiedBench]] | ICML 2025 | Benchmark | 4 环境, 1128 任务, 24 MLLMs | GPT-4o 仅 28.9%, manipulation 15.7% | 仿真 only, 天花板低 |
-| [[Papers/2503-GeminiRobotics\|Gemini Robotics]] | arXiv 2025 | CoT + Benchmark | Gemini 2.0 VLA + ERQA benchmark | 首个 embodied reasoning 专用评测 | 闭源, 无法复现 |
-| [[Papers/2504-EmbodiedR\|Embodied-R]] | arXiv 2025 | RL (GRPO) | 72B 感知 + 3B 推理, logical consistency reward | 3B > o1 (51.1% vs 37.2%), 仅需 5K 数据 | 72B 推理开销, 文本表征损失空间细节 |
-| [[Papers/2506-RobotR1\|Robot-R1]] | NeurIPS 2025 | RL (GRPO) | Next-state prediction as MCQ + GRPO | 7B > GPT-4o, SFT 0% vs RL 11.68% | 仅 tabletop sim, 绝对成功率低 |
-| [[Papers/2507-MTU3D\|MTU3D]] | arXiv 2025 | Spatial repr. | 统一 grounding-exploration 决策 | 4 个导航 benchmark SOTA | 仅导航任务 |
-| [[Papers/2508-EmbodiedR1\|Embodied-R1]] | arXiv 2025 | RL (GRPO) | Pointing + 两阶段 GRPO | 3B > 7B-13B, 87.5% real success | 依赖 depth, 轨迹采样粗糙 |
-| [[Papers/2509-FoMER\|FoMER]] | arXiv 2025 | Benchmark | 10-dim reasoning quality evaluation | 最佳 o4-mini 76.3%, 人类 84.5% | 小规模 (1112), 仅 single-step |
-| [[Papers/2510-VLASER\|VLASER]] | arXiv 2025 | Data-centric | VLASER-6M data engine + domain analysis | OOD reasoning 不迁移, in-domain 是关键 | 仿真 only, 新环境成本不清 |
-| [[Papers/2512-ETPR1\|ETP-R1]] | arXiv 2025 | RL (GRPO) | GRPO for graph-based VLN-CE | R2R-CE 65% SR | 推理提升有限 |
-| [[Papers/2512-Lumo1\|Lumo-1]] | arXiv 2025 | CoT + RL | Structured trace + GRPO | 超越 pi-0, real dual-arm 验证 | 闭源, 高延迟, 128 H100 |
-| [[Papers/2601-Thinker\|Thinker]] | IROS 2025 | Data-centric | 4.8M robotics dataset, 10B VLM | 7B/10B > RoboBrain2-32B | 仅 4 页短文, 无 real robot |
-| [[Papers/2601-SpatialNav\|SpatialNav]] | arXiv 2026 | Spatial repr. | Hierarchical scene graph + zero-shot VLN | 64.0% SR, 接近 supervised SOTA | 依赖 pre-exploration |
-| [[Papers/2602-DM0\|DM0]] | arXiv 2026 | CoT + Data-centric | Spatial Scaffolding + Embodied-Native 预训练 | Gradient decoupling 保护推理能力 | 2B params, 训练成本高 |
-| [[Papers/2602-GTA\|GTA]] | arXiv 2026 | Spatial repr. | TSDF + topo graph + counterfactual reasoning | SPL +16.4 | 依赖 3D reconstruction |
-| [[Papers/2603-PROSPECT\|PROSPECT]] | arXiv 2026 | Spatial repr. | CUT3R + SigLIP fusion, latent prediction | 长程任务 +4.14% SR | 部分组件不开源 |
-
 ## Datasets & Benchmarks
 
-| Dataset/Benchmark | 来源 | 规模 | 评估维度 | 特点 |
-|:------------------|:-----|:-----|:---------|:-----|
-| **ERQA** (Gemini Robotics) | Real | 400 questions, 7 categories | Spatial, trajectory, action, state, multi-view, task reasoning | 首个 embodied reasoning 专用 benchmark，基于真实机器人场景 |
-| **EmbodiedBench** | Sim | 1,128 tasks, 4 environments | High-level planning → low-level manipulation, 6 capability subsets | 最全面的 MLLM embodied agent 评测；ALFRED + Habitat 等仿真环境 |
-| **FoMER** | Real + Sim | 1,112 samples, 10 task categories, 8 embodiments | 10-dim reasoning quality (不仅看结果对错) | 首次分离 perceptual grounding 与 action reasoning；覆盖真实视频和仿真 |
-| **Robot-R1 Bench** | Sim | MCQ format, RLBench 基础 | Spatial understanding, state prediction, movement prediction | 为 RL-based reasoning 设计；基于 RLBench 仿真渲染 |
-| **SpatialVLM Data** | Real | 2B VQA from 10M images | Metric-space 3D spatial reasoning | Internet-scale 真实图像自动标注，可做 RL dense reward |
-| **VLASER-6M** | Sim | 6M samples, 4 reasoning types | Grounding, spatial, planning, in-domain QA | 仿真环境自动生成；验证不同 reasoning data 对 VLA 的迁移效果 |
-| **Thinker Dataset** | Real + Sim | 4.8M instances | Ego-view reasoning, grounding, spatial, CoT planning | 混合 ego4d 真实视频 + 仿真数据；未开源 |
-| **SIMPLEREnv** | Sim | WidowX/Google Robot 仿真 | Manipulation success rate | ECoT、Embodied-R1 等论文的标准评测平台；Google RT 系列数据仿真化 |
+| Dataset/Benchmark | 来源 | 规模 | 评估维度 | SOTA | 特点 |
+|:------------------|:-----|:-----|:---------|:-----|:-----|
+| **ERQA** (Gemini Robotics) | Real | 400 questions, 7 categories | Spatial, trajectory, action, state, multi-view, task reasoning | — (Gemini Robotics 闭源) | 首个 embodied reasoning 专用 benchmark |
+| **EmbodiedBench** | Sim | 1,128 tasks, 4 environments | High-level planning → low-level manipulation, 6 capability subsets | 28.9% (GPT-4o) | 最全面的 MLLM embodied agent 评测 |
+| **FoMER** | Real + Sim | 1,112 samples, 10 task categories, 8 embodiments | 10-dim reasoning quality | 76.3% (o4-mini); 人类 84.5% | 首次分离 perceptual grounding 与 action reasoning |
+| **Robot-R1 Bench** | Sim | MCQ format, RLBench 基础 | Spatial understanding, state prediction, movement prediction | 7B > GPT-4o (Robot-R1) | 为 RL-based reasoning 设计 |
+| **SpatialVLM Data** | Real | 2B VQA from 10M images | Metric-space 3D spatial reasoning | — | Internet-scale 真实图像自动标注 |
+| **VLASER-6M** | Sim | 6M samples, 4 reasoning types | Grounding, spatial, planning, in-domain QA | — | 验证不同 reasoning data 对 VLA 的迁移效果 |
+| **Thinker Dataset** | Real + Sim | 4.8M instances | Ego-view reasoning, grounding, spatial, CoT planning | — | 混合 ego4d 真实视频 + 仿真数据；未开源 |
+| **SIMPLEREnv** | Sim | WidowX/Google Robot 仿真 | Manipulation success rate | 56.2% (Embodied-R1) | ECoT、Embodied-R1 等论文的标准评测平台 |
 
 ## Key Takeaways
 

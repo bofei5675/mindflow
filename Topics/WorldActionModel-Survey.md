@@ -1,8 +1,13 @@
 ---
-title: "World Action Model 文献调研"
-tags: [world-model, VLA, diffusion-policy, imitation-learning, RL, cross-embodiment]
-date_updated: 2026-03-30
-year_range: "2024-2026"
+title: World Action Model Survey
+tags:
+  - world-model
+  - VLA
+  - diffusion-policy
+  - imitation-learning
+  - cross-embodiment
+date_updated: 2026-04-01
+year_range: 2024-2026
 papers_analyzed: 8
 ---
 
@@ -66,52 +71,6 @@ World Action Model (WAM) 是 embodied AI 领域的新兴范式，核心思想是
 
 **劣势**：仅限低维 proprioceptive state（joint angle、force），不处理 visual observation；与 VLA 趋势（端到端视觉-语言-动作）相距较远；对比 model-free RL 优势微弱。
 
-## 发展时间线
-
-```
-2024.06  IRASim — Frame-level action-conditioned video prediction (ByteDance)
-         └─ 奠基：证明 action-frame alignment 对 world model 质量至关重要
-
-2025.01  Cosmos — NVIDIA World Foundation Model Platform
-         └─ 基础设施：开源 video tokenizer + pre-trained WFM，成为下游工作的 backbone
-
-2025.01  Robotic World Model — State-space world model for locomotion (ETH)
-         └─ 经典路线：model-based RL + zero-shot sim-to-real
-
-2025.04  UWM — Unified video+action diffusion (RSS 2025, UW + TRI)
-         └─ 突破：decoupled timesteps 统一 world model 与 policy
-
-2025.05  DreamGen — Video WM as synthetic data generator (CoRL 2025, NVIDIA)
-         └─ 应用：video generation 作为 robot learning 的 data flywheel
-
-2025.12  Motus — Unified latent action world model (Tsinghua)
-         └─ 推进：MoT 架构 + optical flow latent action，5 种建模模式统一
-
-2026.02  World-VLA-Loop — Closed-loop WM + VLA co-optimization (NUS)
-         └─ 闭环：world model 与 VLA policy 迭代互利
-
-2026.02  DreamZero — World Action Model 定义 (NVIDIA)
-         └─ 里程碑：正式提出 WAM 概念，14B 模型 2x 超越 VLA，7Hz 实时控制
-```
-
-**关键趋势**：
-1. **从辅助到核心**：world model 从 policy evaluation 工具（IRASim）→ data generator（DreamGen）→ 直接作为 policy（DreamZero）
-2. **从分离到统一**：video prediction 和 action prediction 从独立模块 → unified architecture（UWM, Motus, DreamZero）
-3. **从 pixel 到 foundation**：从单个 task-specific model → platform-level foundation model（Cosmos）→ 在其上 post-training（World-VLA-Loop）
-
-## Paper Comparison
-
-| Paper | Venue | 技术路线 | 核心方法 | 关键结果 | 局限性 |
-|:------|:-----|:---------|:---------|:---------|:-------|
-| [[2406-IRASim\|IRASim]] | ICCV 2025 | Action-conditioned video | DiT + frame-level action conditioning | Policy eval r=0.99; Push-T IoU 0.637→0.961 | 非实时生成；核心组件为已有技术组合 |
-| [[2501-Cosmos\|Cosmos]] | arXiv | World Foundation Model | Diffusion/AR WFM + video tokenizer | PSNR 35.85 (DAVIS); 2-12x faster tokenizer | 缺乏 robotics task 定量评估；10K H100 |
-| [[2501-RoboticWorldModel\|Robotic World Model]] | arXiv | State-space world model | Dual-autoregressive GRU + MBPO-PPO | ANYmal D zero-shot sim-to-real; 1ms inference | 仅 proprioceptive state；对比 model-free 优势微弱 |
-| [[2504-UWM\|UWM]] | RSS 2025 | Joint video+action | Decoupled diffusion timesteps | Real robot +20% over DP; LIBERO 0.79 | 主要收益来自 pretraining 而非架构 |
-| [[2505-DreamGen\|DreamGen]] | CoRL 2025 | WM-driven policy | Video WM → IDM → co-train policy | 22 novel behaviors; cross-embodiment GR1/Franka/SO-100 | 1500 L40 GPU×54h; IDM 仍需 robot-specific 数据 |
-| [[2512-Motus\|Motus]] | arXiv | Joint latent action | MoT + optical flow latent action | RoboTwin 87.02%; +45% over π0.5 | 依赖 optical flow; 18K GPU hours 预训练 |
-| [[2602-WorldVLALoop\|World-VLA-Loop]] | arXiv | WM-driven policy (RL) | State-aware WM + co-evolving closed loop | LIBERO +12.7%; real robot +23.4% | 仅 short-horizon ~20s; 单任务实验 |
-| [[2602-DreamZero\|DreamZero]] | arXiv | Joint video+action (WAM) | 14B AR diffusion, joint video-action | Seen 62.2% (2.3x baseline); unseen 39.5% | 2×GB200 for 7Hz; 6.6s context window |
-
 ## Key Takeaways
 
 1. **WAM 是 VLA 的自然演进**：DreamZero 的实验证明，联合建模 video + action 在泛化能力上远超纯 action prediction（VLA）。World modeling 提供的 physical dynamics understanding 是 zero-shot generalization 的关键来源。
@@ -123,6 +82,17 @@ World Action Model (WAM) 是 embodied AI 领域的新兴范式，核心思想是
 4. **Action-free video data 是核心数据优势**：WAM 最大的差异化优势之一是能自然利用海量无 action label 的视频数据。UWM 的 cotraining、DreamGen 的 neural trajectories、Motus 的 optical flow latent action 都在不同层面验证了这一点。
 
 5. **计算成本是主要瓶颈**：DreamZero 需要 2×GB200 GPU 实现 7Hz，DreamGen 生成数据需 1500×L40 GPU，Cosmos 预训练需 10,000×H100。这制约了 WAM 在资源有限实验室的可复现性和在消费级硬件上的部署。**建议加入 DomainMaps**：world-model 作为新 domain，与 VLA domain 存在强关联。
+
+## Datasets & Benchmarks
+
+| Dataset/Benchmark | 规模 | 评估指标 | SOTA | 特点 |
+|:------------------|:-----|:---------|:-----|:-----|
+| LIBERO | 130 tasks, 5 suites | Success Rate | 0.79 (UWM); +12.7% (World-VLA-Loop) | VLA/WAM 最广泛使用的多任务 benchmark |
+| RoboTwin | 多 embodiment 双臂 | Success Rate | 87.02% (Motus) | 双臂操作 benchmark |
+| Push-T | 推块任务 | IoU | 0.961 (IRASim) | 简单 planar manipulation |
+| CALVIN | 34 tasks | Avg Tasks | — | 多任务序列组合，长 horizon |
+| DreamGen Bench | 22 novel behaviors | Success Rate | 22 behaviors (DreamGen) | World model 泛化评测 |
+| TokenBench | Video tokenizer | PSNR / FVD | PSNR 35.85 (Cosmos) | Video tokenizer 质量评测 |
 
 ## Open Problems
 
@@ -140,6 +110,12 @@ World Action Model (WAM) 是 embodied AI 领域的新兴范式，核心思想是
 
 ## 调研日志
 
+### 第二轮更新（2026-04-01）
+- **调研日期**: 2026-04-01
+- **论文统计**: 无新增论文，模板对齐更新
+- **新增 section**: Datasets & Benchmarks
+
+### 第一轮（2026-03-30）
 - **调研日期**: 2026-03-30
 - **论文统计**: vault 已有 0 篇 + 新 digest 8 篇 + 跳过 0 篇
 - **未能获取**: 无

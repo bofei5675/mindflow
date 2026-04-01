@@ -4,11 +4,10 @@ tags:
   - VLA
   - manipulation
   - flow-matching
-  - cross-embodiment
   - survey
-date_updated: 2026-03-30
+date_updated: 2026-04-01
 year_range: 2023-2026
-papers_analyzed: 20
+papers_analyzed: 26
 ---
 ## Overview
 
@@ -25,7 +24,9 @@ Vision-Language-Action (VLA) 模型是将预训练 Vision-Language Models (VLMs)
 4. **从大模型到高效模型**：SmolVLA（0.45B）、X-VLA（0.9B）、DM0（2B）证明精心设计的小模型可匹敌甚至超越大模型（3-4B）
 5. **从实验室到真实世界**：π0.5 在全新家庭环境完成 10-15 分钟长时域任务，Gemini Robotics 折纸 100% 成功率，GR00T N1 humanoid 双臂操作 76.8%
 6. **Embodied-Native vs. Pretrain-then-Adapt 范式之争**：DM0 挑战了主流的先 VLM 预训练再 robot fine-tune 范式，提出从一开始就融入 physical data
-7. **Self-correction 成为新方向**：CycleVLA 首次系统性引入 VLA 自纠错机制，long-horizon 任务提升 39.9%
+7. **Embodied Reasoning 成为新核心能力**：ECoT → Robot-R1 → VLASER → Embodied-R1 → Lumo-1 的演进清晰展示了"先推理再行动"的新范式——通过 structured reasoning trace（CoT、pointing、bbox、keypoint）增强 VLA 的泛化能力和可解释性，GRPO-based RL 成为该方向的标准训练范式
+8. **实时部署进入工程化阶段**：Xiaomi-Robotics-0 在消费级 GPU（RTX 4090）上实现 80ms 延迟的实时 VLA 执行，LIBERO 98.7% SOTA，异步执行方案解决了推理延迟导致的动作不连贯问题
+9. **Self-correction 成为新方向**：CycleVLA 首次系统性引入 VLA 自纠错机制，long-horizon 任务提升 39.9%
 
 ## 技术路线
 
@@ -63,7 +64,7 @@ Vision-Language-Action (VLA) 模型是将预训练 Vision-Language Models (VLMs)
 - Flow matching 的 denoising 步骤增加推理计算
 - 最优 action chunk 长度需要 task-specific 调优
 
-**现状**：目前性能最强的 VLA 技术路线。π₀ 系列占据该路线的领导地位，SmolVLA（0.45B）和 [[2510-XVLA|X-VLA]]（0.9B，ICLR 2026）证明 flow matching 在极小参数量下也能高效工作。[[2503-GR00TN1|GR00T N1]]（NVIDIA）将该范式扩展到 humanoid，120 Hz 控制频率。[[2412-RoboVLMs|RoboVLMs]] 的 600+ 实验系统验证了 continuous action + policy head history fusion 是最优配置。[[2603-DAMVLA|DAM-VLA]] 进一步将 diffusion action head 拆分为 arm/gripper 双头，针对不同操作模式独立建模。
+**现状**：目前性能最强的 VLA 技术路线。π₀ 系列占据该路线的领导地位，SmolVLA（0.45B）和 [[2510-XVLA|X-VLA]]（0.9B，ICLR 2026）证明 flow matching 在极小参数量下也能高效工作。[[2503-GR00TN1|GR00T N1]]（NVIDIA）将该范式扩展到 humanoid，120 Hz 控制频率。[[2412-RoboVLMs|RoboVLMs]] 的 600+ 实验系统验证了 continuous action + policy head history fusion 是最优配置。[[2603-DAMVLA|DAM-VLA]] 进一步将 diffusion action head 拆分为 arm/gripper 双头，针对不同操作模式独立建模。[[2602-XiaomiRobotics0|Xiaomi-Robotics-0]]（4.7B）在消费级 RTX 4090 上实现 80ms 实时推理，LIBERO 98.7% / CALVIN 4.80 均为 SOTA，其 Λ-Shape Attention Mask + RoPE Offsetting 的异步执行方案解决了推理延迟导致的动作不连贯问题。
 
 ### 路线 3：Hierarchical VLM-VLA（分层架构）
 
@@ -139,55 +140,38 @@ Vision-Language-Action (VLA) 模型是将预训练 Vision-Language Models (VLMs)
 
 **现状**：CycleVLA 在 LIBERO 上平均 +18.8%，long-horizon +39.9%。Self-correction 是 VLA 安全部署的关键缺失能力，但当前方法仍有较强假设约束。
 
-## 发展时间线
+### 路线 7：Embodied Reasoning VLA（推理增强动作生成）
 
-| 时间 | 里程碑 | 意义 |
-|:-----|:-------|:-----|
-| 2023-07 | [[2307-RT2\|RT-2]] (Google DeepMind) | 🏆 VLA 范式开创：Actions as Tokens，证明 VLM→robot control 可行 |
-| 2024-05 | [[2405-Octo\|Octo]] (UC Berkeley) | 首个开源 generalist robot policy，diffusion action head |
-| 2024-06 | [[2406-OpenVLA\|OpenVLA]] (Stanford) | 7B 开源 VLA baseline，超越 55B RT-2-X，降低研究门槛 |
-| 2024-10 | [[2410-Pi0\|π₀]] (Physical Intelligence) | 🏆 Flow matching + action expert 范式，50 Hz 灵巧操作 |
-| 2024-12 | [[2412-NaVILA\|NaVILA]] (NVIDIA) | VLA 扩展到 navigation，语言作为 mid-level action |
-| 2024-12 | [[2412-RoboVLMs\|RoboVLMs]] (Tsinghua/ByteDance) | 600+ 实验系统研究 VLA 设计选择 |
-| 2025-02 | [[2502-HiRobot\|Hi Robot]] (Physical Intelligence) | Hierarchical VLM-VLA，超越 GPT-4o |
-| 2025-02 | [[2502-OpenVLA-OFT\|OpenVLA-OFT]] (Stanford) | Fine-tuning 优化，26× 推理加速，97.1% LIBERO |
-| 2025-03 | [[2503-GR00TN1\|GR00T N1]] (NVIDIA) | 🏆 首个开源 humanoid VLA，dual-system + Data Pyramid，76.8% real-world |
-| 2025-03 | [[2503-GeminiRobotics\|Gemini Robotics]] (Google DeepMind) | 🏆 Gemini 2.0→robot control，折纸 100%，Google 重返 VLA 赛道 |
-| 2025-04 | [[2504-Pi05\|π0.5]] (Physical Intelligence) | 🏆 Open-world generalization，全新家庭 10-15 分钟任务 |
-| 2025-06 | [[2506-SmolVLA\|SmolVLA]] (Hugging Face) | 0.45B 紧凑 VLA，证明小模型可比大模型 |
-| 2025-10 | [[2510-XVLA\|X-VLA]] (Tsinghua/Shanghai AI Lab) | 🏆 ICLR 2026 + IROS 冠军，soft prompt cross-embodiment，0.9B SOTA |
-| 2025-11 | [[2511-PiStar06\|π*₀.₆]] (Physical Intelligence) | 🏆 首次 VLA RL 自我改进，>2× throughput |
-| 2026-01 | [[2601-CycleVLA\|CycleVLA]] (Oxford/Cambridge) | VLA self-correction 首作，long-horizon +39.9% |
-| 2026-02 | [[2602-DM0\|DM0]] (Dexmal) | Embodied-Native VLA，2B 超越 3-4B 竞品，62% Table30 |
-| 2026-02 | [[2602-GigaBrain\|GigaBrain-0.5M*]] (GigaAI) | World model RL (RAMP)，证明 RECAP 是退化特例 |
-| 2026-03 | [[2603-MEM\|MEM]] (Physical Intelligence) | 多尺度记忆，15 分钟级长任务 |
-| 2026-03 | [[2603-RoboClaw\|RoboClaw]] (HKU/Galbot) | Agentic VLA，自主数据收集 + long-horizon |
-| 2026-03 | [[2603-DAMVLA\|DAM-VLA]] | Arm/gripper 解耦双头 VLA，SIMPLER 83% |
+**代表论文**：[[2407-ECoT|ECoT]]、[[2506-RobotR1|Robot-R1]]、[[2510-VLASER|VLASER]]、[[2508-EmbodiedR1|Embodied-R1]]、[[2512-Lumo1|Lumo-1]]
 
-## Paper Comparison
+**核心思路**：在 action 生成前插入显式的 embodied reasoning 过程——通过 structured reasoning trace（CoT、bounding box、keypoint、pointing、trajectory waypoint）将视觉理解与动作决策显式关联。核心 insight：**action 应当是 structured reasoning 的产物，而非 observation 的直接映射**。GRPO-based RL 成为该方向的标准训练范式。
 
-| Paper | Venue | 技术路线 | 核心方法 | 关键结果 | 局限性 |
-|:------|:-----|:---------|:---------|:---------|:-------|
-| [[2307-RT2\|RT-2]] | CoRL 2023 | Token Prediction | PaLM-E/PaLI-X + action tokenization | Emergent reasoning 3×提升 | 3 Hz 低频，55B 巨大，未开源 |
-| [[2405-Octo\|Octo]] | RSS 2024 | Diffusion | Transformer + diffusion head，27M/93M | 9 平台验证，开源生态 | 参数量小，无 VLM 预训练 |
-| [[2406-OpenVLA\|OpenVLA]] | ICML 2025 | Token Prediction | Llama 2 7B + DINOv2/SigLIP | 超 RT-2-X 16.5%，开源 | Autoregressive 低频 |
-| [[2410-Pi0\|π₀]] | RSS 2025 | Flow Matching | PaliGemma 3B + flow matching expert | 50 Hz，超越 OpenVLA/Octo | 数据配比 heuristic |
-| [[2412-NaVILA\|NaVILA]] | RSS 2025 | Hierarchical | VILA + mid-level language action + RL | R2R-CE 54% SR，real 88% | 仅 navigation |
-| [[2412-RoboVLMs\|RoboVLMs]] | arXiv | Benchmark | 8 backbone × 4 架构，600+ 实验 | CALVIN 4.49 SOTA | 仅 table-top |
-| [[2502-HiRobot\|Hi Robot]] | arXiv | Hierarchical | VLM planner + π₀ executor + synthetic data | 超 GPT-4o 40%+ IA | Navigation 有限 |
-| [[2502-OpenVLA-OFT\|OpenVLA-OFT]] | RSS 2025 | Optimized FT | Parallel decoding + continuous + L1 | LIBERO 97.1%，26× 加速 | 仅验证 OpenVLA |
-| [[2504-Pi05\|π0.5]] | arXiv | Hierarchical + FM | Hierarchical inference + co-training | 全新家庭 50-85% | 无 memory |
-| [[2506-SmolVLA\|SmolVLA]] | arXiv | Efficient FM | 0.45B + layer skip + community data | LIBERO 87.3%，快 40% | 短 horizon 为主 |
-| [[2511-PiStar06\|π*₀.₆]] | arXiv | RL + FM | Recap: advantage-conditioned RL | >2× throughput，13h 部署 | 需人工 reward |
-| [[2503-GR00TN1\|GR00T N1]] | arXiv | Dual-System FM | Eagle-2 VLM + DiT flow matching, Data Pyramid, latent actions | Real-world 76.8%，humanoid bimanual | 仅 tabletop manipulation |
-| [[2503-GeminiRobotics\|Gemini Robotics]] | arXiv | Cloud+Local VLA | Gemini 2.0 cloud backbone + local decoder, ALOHA 2 | 折纸 100%，cross-embodiment 63% | 未开源，sim2real gap |
-| [[2510-XVLA\|X-VLA]] | ICLR 2026 | Soft Prompt FM | Soft prompt + flow matching, 0.9B | ICLR 2026，IROS 冠军，LIBERO SOTA | 数据规模有限（290K） |
-| [[2601-CycleVLA\|CycleVLA]] | arXiv | Self-Correction | Progress-aware VLA + VLM failure predictor + MBR decoding | LIBERO +18.8%，Long +39.9% | 仅 simulation，可逆性假设 |
-| [[2602-DM0\|DM0]] | arXiv | Embodied-Native | 三阶段训练 + gradient decoupling + Spatial Scaffolding | Table30 62% SOTA，2B 超 3-4B | Benchmark 较新，复现成本高 |
-| [[2602-GigaBrain\|GigaBrain-0.5M*]] | arXiv | World Model RL | RAMP: world model latent conditioned RL | RoboChallenge #1，~30% 提升 | 内部评估为主 |
-| [[2603-MEM\|MEM]] | arXiv | Memory + FM | 视频短期记忆 + 语言长期记忆 | 15min 任务 70-80% | 仅 π₀.₆ 验证 |
-| [[2603-RoboClaw\|RoboClaw]] | arXiv | Agentic | VLM agent + EAP 自主数据收集 | +25% SR，-53.7% 人工 | Cloud VLM 延迟 |
-| [[2603-DAMVLA\|DAM-VLA]] | arXiv | Dual-Head Diffusion | Arm/gripper 解耦双头 + action routing + dual-scale weighting | SIMPLER 83%，real 86.8% | 二元切换假设 |
+**优势**：
+- 泛化能力显著提升：ECoT 在 OOD 场景 +28%，Embodied-R1 真机 87.5% zero-shot
+- 可解释性强：推理链天然支持 failure diagnosis 和人类纠错（ECoT +48%）
+- Embodiment-agnostic：Embodied-R1 的 pointing 表征和 Lumo-1 的 spatial action tokenizer 均支持 cross-embodiment
+- RL > SFT：Robot-R1、Embodied-R1、Lumo-1 一致证明 GRPO 在 embodied reasoning 上显著优于 SFT
+
+**劣势**：
+- 推理链引入额外 inference latency，限制高频控制
+- In-domain reasoning data 是关键（VLASER 核心发现：OOD reasoning 几乎不迁移到 VLA）
+- 绝对成功率仍有提升空间（Robot-R1 EmbodiedBench 11.68%）
+- 推理结构通常固定，缺乏自适应
+
+**现状**：2024-2025 年增长最快的 VLA 方向。ECoT 开创了 embodied CoT（+28%），Robot-R1（NeurIPS 2025）首次将 GRPO 系统性用于 embodied manipulation reasoning，VLASER 系统性回答了"哪种 reasoning data 对 VLA 有用"（答案：in-domain data 压倒性优势），Embodied-R1 以 3B 参数量通过 pointing 中间表征实现 SIMPLEREnv 56.2% + 真机 87.5%，Lumo-1（Astribot）将 reasoning-action 统一到 407B tokens 的三阶段训练中并通过 GRPO 对齐 reasoning 与 action。该方向正在与 Flow Matching（路线 2）融合——VLASER 和 Lumo-1 均采用 flow-matching action expert + embodied reasoning 的组合。
+
+## Datasets & Benchmarks
+
+| Dataset/Benchmark       | 规模                     | 评估指标                | SOTA                      | 特点                                         |
+| :---------------------- | :--------------------- | :------------------ | :------------------------ | :----------------------------------------- |
+| LIBERO                  | 130 tasks, 5 suites    | Success Rate        | 98.7% (Xiaomi-Robotics-0) | 多任务桌面操作，最广泛使用的 VLA benchmark               |
+| SIMPLER / SimplerEnv    | Google Robot + WidowX  | Success Rate        | 83% (DAM-VLA)             | 基于 MuJoCo 的标准化仿真评测                         |
+| CALVIN                  | 34 tasks, ABCD→D split | Avg Completed Tasks | 4.80 (Xiaomi-Robotics-0)  | 长序列多任务组合                                   |
+| RoboTwin                | 多 embodiment           | Success Rate        | 87.02% (Motus)            | 双臂操作 benchmark                             |
+| Table30 / RoboChallenge | 30 tasks               | Success Rate        | 62% (DM0)                 | 新兴的统一桌面操作评测                                |
+| EmbodiedBench           | 3 domains, 70+ tasks   | Success Rate        | 28.9% (GPT-4o)            | 覆盖 navigation + manipulation + 高层 planning |
+| R2R-CE                  | 连续环境导航                 | SR / SPL            | 65% SR (ETP-R1)           | VLN 标准 benchmark（部分 VLA 也在此评测）             |
+| Robot-R1 Bench          | 多维度 QA                 | Score               | 7B > GPT-4o (Robot-R1)    | Embodied reasoning 能力系统评测                  |
 
 ## Key Takeaways
 
@@ -201,9 +185,13 @@ Vision-Language-Action (VLA) 模型是将预训练 Vision-Language Models (VLMs)
 
 5. **Cross-embodiment 进入实用阶段**：X-VLA 的 soft prompt（1% 参数适配新平台）、GR00T N1 的 embodiment-specific MLPs + latent action、Gemini Robotics 的 cross-embodiment 迁移（ALOHA 2 → Franka → Apollo），三种方案证明 cross-embodiment 不再只是理想，而是可工程化的能力。
 
-6. **Self-correction 是安全部署的缺失关键能力**：CycleVLA 首次系统性引入 VLA proactive self-correction，long-horizon +39.9% 的提升证明了其价值。但当前方案受限于可逆性假设和外部 VLM 依赖，real-world self-correction 仍有很大探索空间。
+6. **Embodied Reasoning 成为泛化关键**：ECoT（+28% OOD）→ Robot-R1（NeurIPS 2025，7B 超 GPT-4o）→ VLASER（in-domain data 决定性）→ Embodied-R1（3B 真机 87.5%）→ Lumo-1（reasoning-action 统一）构成了"先推理再行动"的完整技术演进。GRPO-based RL 已成为 embodied reasoning 的 de facto 训练范式（Robot-R1、Embodied-R1、Lumo-1 一致证明 RL >> SFT）。VLASER 的核心发现尤为重要：**out-of-domain embodied reasoning 几乎不迁移到 VLA，in-domain reasoning data 才是关键**。
 
-7. **开源生态持续加速**：从 Octo → OpenVLA → SmolVLA → X-VLA → GR00T N1，开源 VLA 的能力不断提升。X-VLA 已集成到 LeRobot 平台，GR00T N1 开源了模型+代码+数据。开源使得学术组以 0.9B-2B 参数量就能竞争甚至超越工业界闭源大模型。
+7. **实时部署从瓶颈走向解决**：Xiaomi-Robotics-0 在 RTX 4090 上实现 80ms/step 的 VLA 实时推理，LIBERO 98.7% / CALVIN 4.80 均为 SOTA。其 Λ-Shape Attention Mask + RoPE Offsetting 异步执行方案优雅地解决了推理延迟导致的动作不连贯问题，为 VLA 工程化部署提供了可复用的技术方案。
+
+8. **Self-correction 是安全部署的缺失关键能力**：CycleVLA 首次系统性引入 VLA proactive self-correction，long-horizon +39.9% 的提升证明了其价值。但当前方案受限于可逆性假设和外部 VLM 依赖，real-world self-correction 仍有很大探索空间。
+
+9. **开源生态持续加速**：从 Octo → OpenVLA → SmolVLA → X-VLA → GR00T N1 → Xiaomi-Robotics-0，开源 VLA 的能力不断提升。X-VLA 已集成到 LeRobot 平台，GR00T N1 和 Xiaomi-Robotics-0 均开源了模型+代码。开源使得学术组以 0.9B-2B 参数量就能竞争甚至超越工业界闭源大模型。
 
 ## Open Problems
 
@@ -221,9 +209,18 @@ Vision-Language-Action (VLA) 模型是将预训练 Vision-Language Models (VLMs)
 
 7. **VLA 的 Scaling Law**：SmolVLA（0.45B）、X-VLA（0.9B）、DM0（2B）频繁超越更大模型，暗示 VLA 的 scaling law 与 LLM 有根本不同。模型规模、数据规模、数据多样性、training recipe 之间的 scaling 关系尚不清楚。X-VLA 报告三个维度均未饱和，但系统性 scaling 研究缺失。
 
-8. **Benchmark 碎片化**：LIBERO、SIMPLER、CALVIN、Table30、RoboChallenge 等 benchmark 各有侧重，不同论文在不同 benchmark 上声称 SOTA，缺乏统一的、全面的评测标准。ERQA（Gemini Robotics 提出）填补了 embodied reasoning 评测空白，但 end-to-end manipulation 的"标准 benchmark"仍未确立。
+8. **Embodied Reasoning 的最优形式尚未确定**：ECoT 的 6 步 CoT、Embodied-R1 的 pointing、VLASER 的 in-domain QA、Lumo-1 的 spatial action tokenizer 代表了不同的 reasoning 表征方案。哪种 reasoning 形式在 accuracy-latency trade-off 上最优？Full reasoning 与 partial reasoning（Lumo-1 的两种模式）如何自适应切换？Reasoning 与 flow matching action expert 的最优耦合方式是什么？
+
+9. **Benchmark 碎片化**：LIBERO、SIMPLER、CALVIN、Table30、RoboChallenge 等 benchmark 各有侧重，不同论文在不同 benchmark 上声称 SOTA，缺乏统一的、全面的评测标准。Xiaomi-Robotics-0 在 LIBERO 98.7% 接近饱和，社区需要更具挑战性的统一 benchmark。
 
 ## 调研日志
+
+### 第三轮更新（2026-04-01）
+- **调研日期**: 2026-04-01
+- **论文统计**: vault 已有 20 篇 + 新整合 6 篇，总计 26 篇
+- **新增论文**: ECoT, Robot-R1, VLASER, Embodied-R1, Lumo-1, Xiaomi-Robotics-0
+- **新增技术路线**: 路线 7 Embodied Reasoning VLA
+- **新增 section**: Datasets & Benchmarks
 
 ### 第二轮更新（2026-03-30）
 - **调研日期**: 2026-03-30
