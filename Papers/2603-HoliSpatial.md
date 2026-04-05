@@ -74,7 +74,7 @@ date_added: "2026-04-03"
 **Weaknesses:**
 - **Pipeline 依赖链过长**：SfM → Depth-Anything-V3 → 3DGS → Gemini3-Pro → SAM3 → Qwen3-VL-30B，每个组件的 error 都会传播和累积，robustness 存疑
 - **Compute cost 高**：per-scene 3DGS 优化 + 多次 VLM inference，计算成本是否真正优于人工标注需要更多讨论
-- **视频源局限性**：核心来源仍是 ScanNet/ScanNet++/DL3DV-10K 等现有数据集的视频，并非真正的 "in-the-wild" 视频，generalization 到更复杂场景（动态物体、motion blur、遮挡严重）时 pipeline 可能退化
+- **视频源局限性**：核心来源仍是 ScanNet/ScanNet++/DL3DV-10K 这三个已有数据集的视频——都是受控环境下用特定设备拍摄的室内场景，并非真正的 in-the-wild 视频。虽然声称 "from raw video inputs"，但实际上丢弃了原有人工标注后用自动 pipeline 重标，视频本身的多样性并未扩展。Generalization 到更 challenging 的视频（手机随拍、动态物体、motion blur、严重遮挡）时 pipeline 可能退化
 - **VLM downstream gain 有限**：MMSI-Bench 上仅 +1.5（31.1→32.6），spatial reasoning 的提升主要集中在 MindCube 和 grounding task，说明数据质量/多样性可能仍有瓶颈
 - **缺少与其他自动标注 pipeline 的公平对比**：主要 baseline 是单组件方法，缺少与类似 end-to-end 自动标注系统（如果有的话）的对比
 
